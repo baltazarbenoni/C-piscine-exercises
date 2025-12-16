@@ -2,11 +2,14 @@
 #include <stdio.h>
 #include <limits.h>
 
+//Exercise 00:
+//Write a function that displays the character passed as a parameter.
 void ft_putchar(char c)
 {
     write(1, &c, 1);
 }
-
+//Exercise 01:
+//Create a function that displays the alphabet in lowercase, on a single line, by ascending order, starting from the letter ’a’.
 void ft_print_alphabet(void)
 {
     char c;
@@ -26,7 +29,22 @@ void ft_print_alphabet(void)
     write(1, &letters, length * 2);
     write(1, "\n", 1);
 }
-
+//Exercise 02:
+//Create a function that displays the alphabet in lowercase, on a single line, by descending order, starting from the letter ’z’.
+void ft_print_reverse_alphabet(void)
+{
+    char letters[26];
+    char c;
+    int index = 0;
+    for(c = 'z'; c >= 'a'; --c)
+    {
+        letters[index] = c;
+        ++index;
+    }
+    write(1, &letters, 26);
+}
+//Exercise 03:
+//Create a function that displays all digits, on a single line, by ascending order.
 void ft_print_numbers(void)
 {
     int i;
@@ -40,7 +58,8 @@ void ft_print_numbers(void)
     }
     write(1, "\n", 1);
 }
-
+//Exercise 04:
+//Create a function that displays ’N’ or ’P’ depending on the integer’s sign entered as a parameter. If n is negative, display ’N’. If n is positive or null, display ’P’
 void ft_is_negative(int n)
 {
     char c;
@@ -56,7 +75,8 @@ void ft_is_negative(int n)
     write(1, &c, 1);
     write(1, "\n", 1);
 }
-
+//Exercise 05:
+//Create a function that displays all different combinations of three different digits in ascending order, listed by ascending order.
 void ft_print_comb(void)
 {
     for(int i = 0; i <= 9; ++i)
@@ -77,6 +97,8 @@ void ft_print_comb(void)
     }
     write(1, "\n", 1);
 }
+//Exercise 06:
+//Create a function that displays all different combination of two two digits numbers (XX XX) between 00 and 99, listed by ascending order.
 int ft_print_comb2_subroutine(int num)
 {
     char zero = '0';
@@ -112,35 +134,8 @@ void ft_print_comb2(void)
     }
 }
 
-int power(int num, int power)
-{
-    int result = 1;
-    if(power < 1)
-    {
-        return result;
-    }
-    else
-    {
-        for(int i = 1; i <= power; ++i)
-        {
-            result = result * num;
-        }
-    }
-    printf("%d", result);
-    printf("\n");
-}
-int get_abs(int num)
-{
-    if(num < 0)
-    {
-        return num * -1;
-    }
-    else
-    {
-        return num;
-    }
-}
-
+//Exercise 07
+//Create a function that displays the number entered as a parameter. The function has to be able to display all possible values within an int type variable.
 void ft_putnbr(int nb)
 {
     char buff[12];
@@ -171,8 +166,6 @@ void ft_putnbr(int nb)
             buff[index] = '0' + (nb % 10);
             nb /= 10;
             ++index;
-            printf("%d", index);
-            printf("\n");
         }
     }
     //reverse order.
@@ -185,37 +178,10 @@ void ft_putnbr(int nb)
     write(1, &buff, index);
     write(1, "\n", 1);
 }
-/*
-Create a function that displays all different combinations of n numbers by ascending
-order.
-• n will be so that : 0 < n < 10
-void ft_print_combn(int n);
 
- for(int i = 0; i <= 9; ++i)
-    {
-        for(int j = i + 1; j <= 9; ++j)
-        {
-            for(int k = j + 1; k <= 9; ++k)
-            {
-                char c_i = i + '0';
-                char c_j = j + '0';
-                char c_k = k + '0';
-                char arr[3] = {c_i, c_j, c_k};
-                write(1, &arr, 3);
-                char space = ' ';
-                write(1, &space, 1);
-            }
-        }
-    }
-*/ 
-void print_zero(int n)
-{
-    char zero = '0';
-    if(n < 10)
-    {
-        write(1, &zero, 1);
-    }
-}
+
+//Exercice 08:
+//Create a function that displays all different combinations of n numbers by ascending order.
 void print_num(int depth, int start, int max_depth, char *buff)
 {
     for(int i = start; i <= 9; ++i)
@@ -258,8 +224,9 @@ int main()
     ft_putnbr(123);
     ft_putnbr(-1234);
     ft_print_combn(2);
-    write(1, "\n", 1);
-    ft_print_combn(4);
-    ft_print_combn(8);
+    //ft_print_combn(4);
+    //ft_print_combn(8);
+    ft_print_reverse_alphabet();
+
     return 0;
 }
