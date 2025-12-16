@@ -140,10 +140,7 @@ int get_abs(int num)
         return num;
     }
 }
-void get_string(char *arr, int number)
-{
 
-}
 void ft_putnbr(int nb)
 {
     char buff[12];
@@ -179,16 +176,74 @@ void ft_putnbr(int nb)
         }
     }
     //reverse order.
-    int index2 = 0;
-    for(int j = reverse_start; j - reverse_start < index / 2; ++j)
+    for(int j = reverse_start, i = index - 1; j <= (float)(index / 2); ++j, --i)
     {
-        char temp = buff[index - index2 - 1];
-        buff[index - index2 - 1] = buff[j];
+        char temp = buff[i];
+        buff[i] = buff[j];
         buff[j] = temp;
-        ++index2;
     }
     write(1, &buff, index);
     write(1, "\n", 1);
+}
+/*
+Create a function that displays all different combinations of n numbers by ascending
+order.
+• n will be so that : 0 < n < 10
+void ft_print_combn(int n);
+
+ for(int i = 0; i <= 9; ++i)
+    {
+        for(int j = i + 1; j <= 9; ++j)
+        {
+            for(int k = j + 1; k <= 9; ++k)
+            {
+                char c_i = i + '0';
+                char c_j = j + '0';
+                char c_k = k + '0';
+                char arr[3] = {c_i, c_j, c_k};
+                write(1, &arr, 3);
+                char space = ' ';
+                write(1, &space, 1);
+            }
+        }
+    }
+*/ 
+void print_zero(int n)
+{
+    char zero = '0';
+    if(n < 10)
+    {
+        write(1, &zero, 1);
+    }
+}
+void print_num(int depth, int start, int max_depth, char *buff)
+{
+    for(int i = start; i <= 9; ++i)
+    {
+        buff[depth] = '0' + i;
+        if(depth < max_depth)
+        {
+            print_num(depth + 1, i + 1, max_depth, buff);
+        }
+        else
+        {
+            write(1, buff, (max_depth + 1));
+            write(1, " ", 1);
+        }
+    }
+    if(depth == 0)
+    {
+        write(1, "\n", 1);
+    }
+}
+void ft_print_combn(int n)
+{
+    if(n <= 0 || n > 9)
+    {
+        return;
+    }
+    char buffer[10];
+    print_num(0, 0, n - 1, buffer);
 }
 
 int main()
@@ -200,5 +255,11 @@ int main()
     //ft_print_comb();
     //ft_print_comb2();
     //power(12, 2);
+    ft_putnbr(123);
+    ft_putnbr(-1234);
+    ft_print_combn(2);
+    write(1, "\n", 1);
+    ft_print_combn(4);
+    ft_print_combn(8);
     return 0;
 }
