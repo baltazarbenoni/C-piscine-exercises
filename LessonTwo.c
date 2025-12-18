@@ -42,9 +42,56 @@ void ft_ultimate_div_mod(int *a, int *b)
 //Create a function that displays a string of characters on the standard output.
 void ft_putstr(char *str)
 {
-
+    int length_counter = 0;
+    while(str[length_counter] != '\0') 
+    {
+        ++length_counter;
+    }
+    write(1, str, length_counter);
+    write(1, "\n", 1);
 }
+//Exercise 06:
+//Create a function that counts and returns the number of characters in a string.
+int ft_strlen(char *str)
+{
+    int length_counter = 0;
+    while(str[length_counter] != '\0') 
+    {
+        ++length_counter;
+    }
+    return length_counter;
+}
+//Exercise 07:
+//Create a function which reverses a given array of integer (first goes last, etc). The arguments are a pointer to int and the number of ints in the array.
+void ft_rev_int_tab(int *tab, int size)
+{
+    char temp;
+    for(int i = 0, j = size - 1; i <= (float)(size / 2); ++i, --j)
+    {
+        temp = tab[j];
+        tab[j] = tab[i];
+        tab[i] = temp;
+    }
+}
+//Exercise 08:
+//Create a function which sorts an array of integers by ascending order. The arguments are a pointer to int and the number of ints in the array.
+void ft_sort_int_tab(int *tab, int size)
+{
+    //Merge sort.
+    for(int i = 0; i < size; ++i)
+    {
 
+    }
+}
+void print_array(int *ar, int size)
+{
+    for(int i = 0; i < size; ++i)
+    {
+        char c = '0' + ar[i];
+        write(1, &c, 1);
+        write(1, " ", 1);
+    }
+}
 int main()
 {
     int div = 0;
@@ -59,5 +106,15 @@ int main()
     int b = 17;
     ft_ultimate_div_mod(&a, &b);
     printf("result: %d, remainder: %d", a, b);
+    char str[] = "kakka";
+    char str2[] = "29321jaaaksjda";
+    ft_putstr(str);
+    ft_putstr(str2);
+    char str3[] = "kakkakakkakakkakakka";
+    int count = ft_strlen(str3);
+    printf("\nCount is : %d", count);
+    int ar[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    ft_rev_int_tab(ar, 10);
+    print_array(ar, 10);
     return 0;
 }
