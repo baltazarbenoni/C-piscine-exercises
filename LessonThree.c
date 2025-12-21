@@ -2,6 +2,15 @@
 #include <stdio.h>
 #include <limits.h>
 
+void ft_putstr(char *str)
+{
+    int length_counter = 0;
+    while(str[length_counter] != '\0') 
+    {
+        ++length_counter;
+    }
+    write(1, str, length_counter);
+}
 //Exercise 00:
 //Reproduce the behavior of the function strcpy (man strcpy).
 /*
@@ -250,24 +259,77 @@ Create a function that displays a string of characters onscreen. If this string 
 • The function should display :
     Coucou\0atu vas bien ?
 */
+void dec_to_hex(int dec, char *hex, int size)
+{
+    if(size == 0)
+    {
+        return;
+    }
+    if(dec < 10)
+    {
+        hex[0] = '0' + dec;
+    }
+    int counter = 0;
+    while(dec != 0)
+    {
+        int rem = dec % 16;
+        char c = '0' + rem;
+        if(rem > 9)
+        {
+            c = 'a' + (rem - 10);
+        }
+        hex[counter] = c;
+        write(0, &c, 1);
+        dec /= 16;
+        counter++;
+        if(counter >= size)
+        {
+            break;
+        }
+    }
+}
 void ft_putstr_non_printable(char *str)
 {
-
-}
-//=======================================================
-
-
-
-void ft_putstr(char *str)
-{
-    int length_counter = 0;
-    while(str[length_counter] != '\0') 
+    int index = 0;
+    while(str[index] != '\0')
     {
-        ++length_counter;
+        char c = str[index];
+        if(!(c >= ' ' && c <= '~'))
+        {
+            write(1, "\\0", 2);
+            int dec = (unsigned char)c;
+            char hex[128];
+            dec_to_hex(dec, hex, 128);
+            ft_putstr(hex);
+        }
+        else
+        {
+            write(1, &c, 1);
+        }
+        ++index;
     }
-    write(1, str, length_counter);
     write(1, "\n", 1);
 }
+//=======================================================
+//Exercise 12:
+/*Create a function that displays the memory area onscreen.
+• The display of this memory area should be split into three "columns" separated by a space:
+1. The hexadecimal address of the first line’s first character followed by a ’:’.
+2. The content in hexadecimal with a space each 2 characters and should be
+padded with spaces if needed (see the example below).
+3. The content in printable characters.
+
+• If a character is non-printable, it’ll be replaced by a dot.
+• Each line should handle sixteen characters.
+• If size is equal to 0, nothing should be displayed.
+*/
+//=======================================================
+void *ft_print_memory(void *addr, unsigned int size)
+{
+
+    return addr;
+}
+
 int main()
 {
     char source[] = "hei minun nimeni on jaakko";
@@ -278,17 +340,25 @@ int main()
     char test4[] = "120934345943";
     ft_strncpy(dest, source, 30);
     ft_putstr(dest);
-    printf("%d\n", ft_str_is_alpha(test));
+    /*printf("%d\n", ft_str_is_alpha(test));
     printf("%d\n", ft_str_is_alpha(test2));
     printf("%d\n", ft_str_is_alpha(dest));
     printf("%d\n", ft_str_is_alpha(test3));
     printf("%d\n", ft_str_is_numeric(test3));
     printf("%d\n", ft_str_is_numeric(test4));
     printf("%d\n", ft_str_is_numeric(test));
+    */
+    write(1, "\n", 1);
     ft_putstr(ft_strupcase(test));
+    write(1, "\n", 1);
     ft_putstr(ft_strlowcase(test));
+    write(1, "\n", 1);
     ft_putstr(ft_strcapitalize(test));
     char str[] = "salut, comment tu vas ? 42mots quarante-deux; cinquante+et+un";
+    write(1, "\n", 1);
     ft_putstr(ft_strcapitalize(str));
+    char str2[] = "Coucou\ntu vas bien ?";
+    write(1, "\n", 1);
+    ft_putstr_non_printable(str2);
     return 0;
 }
