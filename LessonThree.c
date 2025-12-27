@@ -324,9 +324,57 @@ padded with spaces if needed (see the example below).
 • If size is equal to 0, nothing should be displayed.
 */
 //=======================================================
+void long_dec_to_hex(unsigned long long dec, char *hex)
+{
+    if(dec < 10)
+    {
+        hex[0] = '0' + dec;
+    }
+    int counter = 0;
+    while(dec != 0)
+    {
+        int rem = dec % 16;
+        char c = '0' + rem;
+        if(rem > 9)
+        {
+            c = 'a' + (rem - 10);
+        }
+        hex[counter] = c;
+        //write(1, &c, 1);
+        dec /= 16;
+        counter++;
+    }
+    while(counter < 16)
+    {
+        hex[counter] = '0';
+        counter++;
+    }
+}
 void *ft_print_memory(void *addr, unsigned int size)
 {
+    int *ptr = (int*)addr;
+    int **address = &ptr;
+    printf("%p", ptr);
+    unsigned long long dec = (unsigned long long)addr;
+    char hex[128];
+    long_dec_to_hex(dec, hex);
+    ft_putstr(hex);
+    write(1, ":", 1);
+/*    for(int i = 0; i < size; ++i)
+    {
+        char *ptr = *(char*)addr[i];
+        char c = *ptr;
+        int dec = (unsigned char)c;
+        char hex[128];
+        dec_to_hex(dec, hex, 128);
+        ft_putstr(hex);
 
+        if((i + 1) % 2 == 0)
+        {
+            write(1, " ", 1);
+        }
+    }
+*/
     return addr;
 }
 
@@ -360,5 +408,7 @@ int main()
     char str2[] = "Coucou\ntu vas bien ?";
     write(1, "\n", 1);
     ft_putstr_non_printable(str2);
+    char mem_test[] = "Bonjour les amin";
+    ft_print_memory(mem_test, 16);
     return 0;
 }
