@@ -325,10 +325,59 @@ padded with spaces if needed (see the example below).
 */
 //=======================================================
 void ft_putnbr(int nb);
+void long_dec_to_hex(unsigned long long dec, char *hex);
+void short_dec_to_hex(int dec, char *hex);
+void *ft_print_memory(void *addr, unsigned int size)
+{
+
+
+    return addr;
+}
+void *print_one_line_memory(void *addr, unsigned int line_size)
+{
+    unsigned long long dec = (unsigned long long)&addr;
+    char hex[128];
+    long_dec_to_hex(dec, hex);
+    ft_putstr(hex);
+    write(1, ":", 1);
+    for(int i = 0; i < 16; ++i)
+    {
+        if(i % 2 == 0)
+        {
+            write(1, " ", 1);
+        }
+        if(i >= line_size)
+        {
+            write(1, " ", 1);
+            continue;
+        }
+        char c = *(char*)(addr + i); 
+        int num = (int)c;
+        char buff[32];
+        short_dec_to_hex(num, buff);
+    }
+    write(1, " ", 1);
+    for(int i = 0; i < 16; ++i)
+    {
+        if(i >= line_size)
+        {
+            write(1, " ", 1);
+            continue;
+        }
+        char c = *(char*)(addr + i); 
+        if(!(c >= ' ' && c <= '~'))
+        {
+            write(1, ".", 1);
+        }
+        else
+        {
+            write(1, &c, 1);
+        }
+    }
+    return addr;
+}
 void long_dec_to_hex(unsigned long long dec, char *hex)
 {
-    printf("\n");
-    ft_putnbr(dec);
     if(dec < 10)
     {
         hex[0] = '0' + dec;
@@ -352,6 +401,42 @@ void long_dec_to_hex(unsigned long long dec, char *hex)
         counter++;
     }
     hex[counter] = '\0';
+    //reverse order.
+    for(int j = 0, i = counter - 1; j < (float)(counter / 2); ++j, --i)
+    {
+        char temp = hex[i];
+        hex[i] = hex[j];
+        hex[j] = temp;
+    }
+}
+void short_dec_to_hex(int dec, char *hex)
+{
+    if(dec < 10)
+    {
+        hex[0] = '0' + dec;
+    }
+    int counter = 0;
+    while(dec != 0)
+    {
+        int rem = dec % 16;
+        char c = '0' + rem;
+        if(rem > 9)
+        {
+            c = 'a' + (rem - 10);
+        }
+        hex[counter] = c;
+        write(1, &c, 1);
+        dec /= 16;
+        counter++;
+    }
+    hex[counter] = '\0';
+    //reverse order.
+    for(int j = 0, i = counter - 1; j < (float)(counter / 2); ++j, --i)
+    {
+        char temp = hex[i];
+        hex[i] = hex[j];
+        hex[j] = temp;
+    }
 }
 void ft_putnbr(int nb)
 {
@@ -395,27 +480,7 @@ void ft_putnbr(int nb)
     write(1, &buff, index);
     write(1, "\n", 1);
 }
-void *ft_print_memory(void *addr, unsigned int size)
-{
-    int *ptr = (int*)addr;
-    printf("%p", ptr);
-    printf("\n");
-    printf("%p", &addr);
-    printf("\n");
-    unsigned long long dec = (unsigned long long)ptr;
-    ft_putnbr(dec);
-    unsigned long long dec1 = (unsigned long long)&addr;
-    ft_putnbr(dec1);
-    char hex2[128];
-    char hex[128];
-    long_dec_to_hex(dec, hex);
-    long_dec_to_hex(dec1, hex2);
-    ft_putstr(hex);
-    write(1, "\n", 1);
-    ft_putstr(hex2);
-    write(1, ":", 1);
-    return addr;
-}
+
 
 int main()
 {
@@ -448,6 +513,7 @@ int main()
     write(1, "\n", 1);
     ft_putstr_non_printable(str2);
     char mem_test[] = "Bonjour les amin";
+    char mem_test1[] = "Bonjour les aminches...c'est fou tout ce qu on peut fare avec ..print_memory..lol";
     ft_print_memory(mem_test, 16);
     return 0;
 }
