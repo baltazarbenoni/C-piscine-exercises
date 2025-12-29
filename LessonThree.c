@@ -324,8 +324,11 @@ padded with spaces if needed (see the example below).
 • If size is equal to 0, nothing should be displayed.
 */
 //=======================================================
+void ft_putnbr(int nb);
 void long_dec_to_hex(unsigned long long dec, char *hex)
 {
+    printf("\n");
+    ft_putnbr(dec);
     if(dec < 10)
     {
         hex[0] = '0' + dec;
@@ -340,7 +343,6 @@ void long_dec_to_hex(unsigned long long dec, char *hex)
             c = 'a' + (rem - 10);
         }
         hex[counter] = c;
-        //write(1, &c, 1);
         dec /= 16;
         counter++;
     }
@@ -349,32 +351,69 @@ void long_dec_to_hex(unsigned long long dec, char *hex)
         hex[counter] = '0';
         counter++;
     }
+    hex[counter] = '\0';
+}
+void ft_putnbr(int nb)
+{
+    char buff[12];
+    int index = 0;
+    int reverse_start = 0;
+
+    if (nb == INT_MIN)
+    {
+        write(1, "-2147483648", 11);
+        return;
+    }
+    if(nb < 0)
+    {
+        buff[index] = '-';
+        ++index;
+        reverse_start = 1;
+        nb = -nb;
+    }
+    if(nb == 0)
+    {
+        write(1, "0", 1);
+        return;
+    }
+    else
+    {
+        while(nb > 0)
+        {
+            buff[index] = '0' + (nb % 10);
+            nb /= 10;
+            ++index;
+        }
+    }
+    //reverse order.
+    for(int j = reverse_start, i = index - 1; j <= (float)(index / 2); ++j, --i)
+    {
+        char temp = buff[i];
+        buff[i] = buff[j];
+        buff[j] = temp;
+    }
+    write(1, &buff, index);
+    write(1, "\n", 1);
 }
 void *ft_print_memory(void *addr, unsigned int size)
 {
     int *ptr = (int*)addr;
-    int **address = &ptr;
     printf("%p", ptr);
-    unsigned long long dec = (unsigned long long)addr;
+    printf("\n");
+    printf("%p", &addr);
+    printf("\n");
+    unsigned long long dec = (unsigned long long)ptr;
+    ft_putnbr(dec);
+    unsigned long long dec1 = (unsigned long long)&addr;
+    ft_putnbr(dec1);
+    char hex2[128];
     char hex[128];
     long_dec_to_hex(dec, hex);
+    long_dec_to_hex(dec1, hex2);
     ft_putstr(hex);
+    write(1, "\n", 1);
+    ft_putstr(hex2);
     write(1, ":", 1);
-/*    for(int i = 0; i < size; ++i)
-    {
-        char *ptr = *(char*)addr[i];
-        char c = *ptr;
-        int dec = (unsigned char)c;
-        char hex[128];
-        dec_to_hex(dec, hex, 128);
-        ft_putstr(hex);
-
-        if((i + 1) % 2 == 0)
-        {
-            write(1, " ", 1);
-        }
-    }
-*/
     return addr;
 }
 
