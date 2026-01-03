@@ -327,43 +327,57 @@ padded with spaces if needed (see the example below).
 void ft_putnbr(int nb);
 void long_dec_to_hex(unsigned long long dec, char *hex);
 void short_dec_to_hex(int dec, char *hex);
+void print_one_line_memory(void *addr, int block_start, int block_end, int line_size);
+
+#define MIN(a,b) ((a)<(b)?(a):(b)) 
 void *ft_print_memory(void *addr, unsigned int size)
 {
+    int block_start = 0;
+    int line_size = 16;
+    while(block_start < size)
+    {
+        int block_end = MIN(block_start + line_size, size);
 
-
+        print_one_line_memory(addr, block_start, block_end, line_size);
+        block_start = block_end; 
+    }
     return addr;
+
 }
-void *print_one_line_memory(void *addr, unsigned int line_size)
+void print_one_line_memory(void *addr, int block_start, int block_end, int line_size)
 {
-    unsigned long long dec = (unsigned long long)&addr;
+
+    if(block_end <= block_start)
+    {
+        return;
+    }
+    //print address.
+    unsigned long long dec = (unsigned long long)(unsigned char*)(addr + block_start);
     char hex[128];
     long_dec_to_hex(dec, hex);
-    ft_putstr(hex);
     write(1, ":", 1);
-    for(int i = 0; i < 16; ++i)
+    //print content in hex.
+    for(int i = 0; i < line_size; ++i)
     {
         if(i % 2 == 0)
         {
             write(1, " ", 1);
         }
-        if(i >= line_size)
+        if(i + block_start >= block_end)
         {
+            write(1, " ", 1);
             write(1, " ", 1);
             continue;
         }
-        char c = *(char*)(addr + i); 
-        int num = (int)c;
+        char x = *(unsigned char*)(addr + block_start + i); 
+        int num = (int)x;
         char buff[32];
         short_dec_to_hex(num, buff);
     }
     write(1, " ", 1);
-    for(int i = 0; i < 16; ++i)
+    //print characters.
+    for(int i = block_start; i < block_end; ++i)
     {
-        if(i >= line_size)
-        {
-            write(1, " ", 1);
-            continue;
-        }
         char c = *(char*)(addr + i); 
         if(!(c >= ' ' && c <= '~'))
         {
@@ -374,7 +388,7 @@ void *print_one_line_memory(void *addr, unsigned int line_size)
             write(1, &c, 1);
         }
     }
-    return addr;
+    write(1, "\n", 1);
 }
 void long_dec_to_hex(unsigned long long dec, char *hex)
 {
@@ -402,11 +416,18 @@ void long_dec_to_hex(unsigned long long dec, char *hex)
     }
     hex[counter] = '\0';
     //reverse order.
-    for(int j = 0, i = counter - 1; j < (float)(counter / 2); ++j, --i)
+    for(int j = 0, i = counter - 1; j < (counter / 2); ++j, --i)
     {
         char temp = hex[i];
         hex[i] = hex[j];
         hex[j] = temp;
+    }
+    //print.
+    int index = 0;
+    while(hex[index] != '\0')
+    {
+        write(1, &hex[index], 1);
+        ++index;
     }
 }
 void short_dec_to_hex(int dec, char *hex)
@@ -513,7 +534,8 @@ int main()
     write(1, "\n", 1);
     ft_putstr_non_printable(str2);
     char mem_test[] = "Bonjour les amin";
-    char mem_test1[] = "Bonjour les aminches...c'est fou tout ce qu on peut fare avec ..print_memory..lol";
-    ft_print_memory(mem_test, 16);
+    char mem_test1[] = "Bonjour les aminches...c'est fou tout ce qu on peut fare avec ..print_memory..lol..xDDD.. ahaha";
+    int length = strlen(mem_test1);
+    ft_print_memory(mem_test1, length);
     return 0;
 }
