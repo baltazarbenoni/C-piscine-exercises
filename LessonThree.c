@@ -369,7 +369,7 @@ void print_one_line_memory(void *addr, int block_start, int block_end, int line_
             write(1, " ", 1);
             continue;
         }
-        char x = *(unsigned char*)(addr + block_start + i); 
+        unsigned char x = *(unsigned char*)(addr + block_start + i); 
         int num = (int)x;
         char buff[32];
         short_dec_to_hex(num, buff);
@@ -378,7 +378,7 @@ void print_one_line_memory(void *addr, int block_start, int block_end, int line_
     //print characters.
     for(int i = block_start; i < block_end; ++i)
     {
-        char c = *(char*)(addr + i); 
+        unsigned char c = *(unsigned char*)(addr + i); 
         if(!(c >= ' ' && c <= '~'))
         {
             write(1, ".", 1);
@@ -534,7 +534,7 @@ int main()
     write(1, "\n", 1);
     ft_putstr_non_printable(str2);
     char mem_test[] = "Bonjour les amin";
-    char mem_test1[] = "Bonjour les aminches...c'est fou tout ce qu on peut fare avec ..print_memory..lol..xDDD.. ahaha";
+    char mem_test1[] = "Bonjour les aminches...c'est fou tout ce qu on peut fare avec ..print_memory..lol..xDDD.. ahaha חדלגחדשלחכ";
     int length = strlen(mem_test1);
     ft_print_memory(mem_test1, length);
     return 0;
