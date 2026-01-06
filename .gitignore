@@ -1,3 +1,5 @@
 *.exe
 *.xml
 Hiven-C-tehtävät/
+.vscode/
+.idea
