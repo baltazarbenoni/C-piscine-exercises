@@ -52,16 +52,46 @@ int ft_strcmp(char *s1, char *s2)
 */
 int ft_strncmp(char *s1, char *s2, unsigned int n)
 {
-
+    if(s1[0] == '\0' && s2[0] == '\0')
+    {
+        return 0;
+    }
+    int counter1 = 0;
+    int counter2 = 0;
+    for(int i = 0; i < n; ++i)
+    {
+        if(s1[i] != '\0')
+        {
+            ++counter1;
+        }
+        if(s2[i] != '\0')
+        {
+            ++counter2;
+        }
+        if(counter1 != counter2)
+        {
+            if(counter1 > counter2)
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+    }
+    return 0;
 }
 
 
 
 int main()
 {
-    char str1[] = "hello all my friends!";
-    char str2[] = "hello all m";
-    printf("%d", ft_strcmp(str1, str2));
+    char str2[] = "hello all my friends!";
+    char str1[] = "hello all m";
+    printf("%d\n", ft_strcmp(str1, str2));
+    printf("%d\n", ft_strncmp(str1, str2, 4));
+    printf("%d\n", ft_strncmp(str1, str2, 20));
     
     return 0;
 }
