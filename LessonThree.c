@@ -43,7 +43,7 @@ No null-character is implicitly appended at the end of destination if source is 
 */
 char *ft_strncpy(char *dest, char *src, unsigned int n)
 {
-    bool source_ended = false;
+    _Bool source_ended = false;
     for(int i = 0; i < n; ++i)
     {
         if(source_ended == false)
