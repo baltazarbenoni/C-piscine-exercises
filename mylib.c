@@ -1,4 +1,5 @@
-
+#include <unistd.h>
+#include "mylib.h"
 //Exercise 00:
 //Write a function that displays the character passed as a parameter.
 void ft_putchar(char c)
@@ -425,22 +426,12 @@ void print_sorted_array(int *ar, int size)
 {
     for(int i = 0; i < size; ++i)
     {
-        printf("%d", ar[i]);
+        write(1, &ar[i], 1);
         if(i < size - 1)
         {
-            printf(", ");
+            write(1, " ", 1);
         }
     }
-}
-
-void ft_putstr(char *str)
-{
-    int length_counter = 0;
-    while(str[length_counter] != '\0') 
-    {
-        ++length_counter;
-    }
-    write(1, str, length_counter);
 }
 //Exercise 00:
 //Reproduce the behavior of the function strcpy (man strcpy).
