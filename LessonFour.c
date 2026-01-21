@@ -206,6 +206,8 @@ unsigned int ft_strlcat(char *dest, char *src, unsigned int size)
     while(dest[i] != '\0')
     {
         ++i;
+        if(i >= size)
+        { break; }
     }
 }
 
