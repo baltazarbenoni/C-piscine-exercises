@@ -1,6 +1,7 @@
 #ifndef HEADER_FILE
 #define HEADER_FILE
 
+//1
 void ft_putchar(char c);
 void ft_print_alphabet(void);
 void ft_print_reverse_alphabet(void);
@@ -11,6 +12,7 @@ void ft_print_comb2(void);
 void ft_putnbr(int nb);
 void ft_print_combn(int n);
 //==============================================//
+//2
 void ft_ft(int *nbr);
 void ft_ultimate_ft(int *********nbr);
 void ft_swap(int *a, int *b);
@@ -23,6 +25,7 @@ void copy_array(int *copied, int *destination, int size, int start_index);
 void ft_sort_int_tab(int *buffer, int size);
 void print_sorted_array(int *ar, int size);
 //==============================================//
+//3
 void ft_putstr(char *str);
 char *ft_strcpy(char *dest, char *src);
 char *ft_strncpy(char *dest, char *src, unsigned int n);
@@ -38,4 +41,14 @@ char *ft_strcapitalize(char *str);
 unsigned int ft_strlcpy(char *dest, char *src, unsigned int size);
 void ft_putstr_non_printable(char *str);
 void *ft_print_memory(void *addr, unsigned int size);
+//==============================================//
+//4
+int ft_strcmp(char *s1, char *s2);
+int ft_strncmp(char *s1, char *s2, unsigned int n);
+char *ft_strcat(char *dest, char *src);
+char *ft_strncat(char *dest, char *src, unsigned int nb);
+char *ft_strstr(char *str, char *to_find);
+unsigned int ft_strlcat(char *dest, char *src, unsigned int size);
+//==============================================//
+//5
 #endif
