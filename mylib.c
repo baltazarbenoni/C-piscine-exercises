@@ -1,4 +1,5 @@
 #include <unistd.h>
+#include <stdbool.h>
 #include "mylib.h"
 //Exercise 00:
 //Write a function that displays the character passed as a parameter.

@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <limits.h>
 #include "mylib.h"
 
@@ -202,15 +203,36 @@ Note, however, that if strlcat() traverses size characters without finding a NUL
 */
 unsigned int ft_strlcat(char *dest, char *src, unsigned int size)
 {
-    int i = 0;
+    if(size == 0)
+    {
+        return 0;
+    }
+    //Get length of dest.
+    unsigned int i = 0;
     while(dest[i] != '\0')
     {
         ++i;
+        //If buffer size reached, return without copying or null, terminating.
         if(i >= size)
-        { break; }
+        {
+            unsigned int j = 0;
+            while(src[j] != '\0')
+            {
+                ++j;
+            }
+            return i + j;
+        }
     }
+    //Write to buffer.
+    unsigned int j = 0;
+    while(src[j] != '\0' && i + j < size)
+    {
+        dest[i + j] = src[j];
+        ++j;
+    }
+    //Null terminate result.
+    dest[i + j] = '\0';
 }
-
 int main()
 {
     char str2[] = "hello all my friends!";
@@ -224,6 +246,8 @@ int main()
     char wroom[] = "wroom1";
     char wroom2[] = "car say wroom quand il va vite wroom";
     char wroom3[] = "wroo";
+    char wroom4[] = "car say wroom quand il va vite wroom";
+    wroom4[15] = '\0';
     ft_putnbr(ft_strcmp(str1, str2));
     write(1, "\n", 1);
     ft_putnbr(ft_strncmp(str1, str2, 4));
@@ -249,7 +273,8 @@ int main()
     write(1, "\n", 1);
     char *a = ft_strstr(wroom2, wroom3);
     write(1, a, 1);
+    ft_strlcat(wroom4, hella, 20);
+    write(1, "\n", 1);
+    ft_putstr(wroom4);
     return 0;
 }
-
-
