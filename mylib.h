@@ -51,4 +51,9 @@ char *ft_strstr(char *str, char *to_find);
 unsigned int ft_strlcat(char *dest, char *src, unsigned int size);
 //==============================================//
 //5
+int ft_atoi(char *str);
+void ft_putnbr_base(int nbr, char *base);
+int ft_atoi_base(char *str, char *base);
+//==============================================//
+//6
 #endif
