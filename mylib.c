@@ -3,6 +3,32 @@
 #include "mylib.h"
 //=====================================================//
 /*
+Useful functions outside lessons.
+*/
+//=====================================================//
+int ft_abs(int num)
+{
+    if(num < 0)
+    {
+        return -num;
+    }
+    else
+    {
+        return num;
+    }
+}
+void ft_print_ints(int *arr, int size)
+{
+    if(size == 0)
+    {
+        return;
+    }
+    for(int i = 0; i < size; ++i)
+    {
+        ft_putnbr(arr[i]);
+    }
+}
+/*
 LESSON ONE
 */
 //=====================================================//

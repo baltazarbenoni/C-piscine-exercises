@@ -1,6 +1,8 @@
 #ifndef HEADER_FILE
 #define HEADER_FILE
-
+//0 (personal additions)
+void ft_print_ints(int *arr, int size);
+int ft_abs(int num);
 //1
 void ft_putchar(char c);
 void ft_print_alphabet(void);

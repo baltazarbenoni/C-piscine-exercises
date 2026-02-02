@@ -221,88 +221,110 @@ int check_for_queens(int x, int y, int *queens)
         //Check if this y-row is free.
         if(queens[i] == y)
         {
+            printf("Found previous queen at %d, %d", i, y);
             return 0;
         }
         //Check diagonals.
         //Equation of a line: y = x + y0 - x0 or y = -x + y0 - x0.
         if(queens[i] == i + y - x)
         {
-            char str[] = "found queen at {x}, {y}.";
+            char str[] = "found previous queen at {x}, {y}.";
             printf(str);
             return 0;
         }
         if(queens[i] == -i + y - x)
         {
-            char str[] = "found queen at {x}, {y}.";
+            char str[] = "found previous queen at {x}, {y}.";
             printf(str);
             return 0;
         }
     }
     return 1;
 }
-int set_queen(int x, int y, int *queens, int (*solutions)[1000], int solution_count)
+/*
+values needed:
+current value on column --> check if other options
+on dead end: go back to backtrack origin
+on free --> go deeper, exit loops.
+on backtracking, erase queens' values.
+
+NEED AND ARRAY TO HOLD THE TRIED VALUES FOR THE BACKTRACK ROW.
+*/
+int solve_one(int column, int* queens, int back_track_start)
 {
-    int free = check_for_queens(x, y, queens);
-    if(free == 1)
+    for(int i = 0; i < 10; ++i)
     {
-        queens[x] = y;
-        //If this is the last queen, add to solutions.
-        if(x == 10)
+        //If this value is the one currently in the array --> skip and look for others.
+        if(i == queens[column])
         {
-            for(int i = 0; i < 10; ++i)
-            {
-                solutions[i][solution_count] = queens[i];
-            }
+            printf("Skipping existing value %d, %d", column, i);
+            continue;
         }
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
-}
-int solve_one(int column, int existing_value)
-{
-    int i = existing_value != 0 ? 0 : 1;
-    while(i < 10)
-    {
-        ++i;
-    }
-}
-int ft_abs(int num)
-{
-    if(num < 0)
-    {
-        return -num;
-    }
-    else
-    {
-        return num;
+        //Check if there are free cells.
+        if(check_for_queens(column, i, queens) == 1)
+        {
+            queens[column] = i;
+            //If completed, break and add this configuration to solutions.
+            if(column == 9)
+            {
+                ft_print_ints(queens, 10);
+                printf("Found working configuration, returning..");
+                return 1;
+            }
+            printf("found free value at %d, %d. Going deeper to %d with backtrack start of %d", column, i, column + 1, back_track_start);
+            solve_one(column + 1, queens, back_track_start);
+        }
+        //this means dead end --> backtrack and remove queens.
+        if(i == 10)
+        {
+            for(int i = column; i < 10; ++i)
+            {
+                printf("Clearing queens from %d to 10", column);
+                queens[i] = -1;
+            }
+            if(column == 0)
+            {
+                printf("Column 0, end of search.");
+                return 0;
+            }
+            printf("Backtracking to column %d with backtrackin start as %d", column - 1, back_track_start - 1);
+            solve_one(column - 1, queens, back_track_start - 1);
+        }
     }
 }
 int ft_ten_queens_puzzle(void)
 {
-    //=============================
     /*
-    1. place first
-    2. place second
-    --> problem --> return to last good.
-    --> if this loop does not work, return more.
-    ================================
-    1. find one solution.
-    2. change last column value, if not possible, change second to last column value. then the one before etc.
-    a. go to previous column.
-    b. see if there is another value free than what was previously used.
-        if yes, use that and try to complete. store the last checked column
-        if no, go to previous.
-
+    put one
+    put next
+    --> until no possibilities
+    --> go back one, try new one
+    --> if no options, go more back, try new one
+    --> if problem again, go back more
+    --> repeat.
     */
     int solution_count = 0;
-    int queens[10][10];
-    int solutions[10][1000];
+    int queens[10];
     for(int i = 0; i < 10; ++i)
     {
-
+        queens[i] == -1;
+    }
+    int solutions[10][1000];
+    int column = 0;
+    int result = 1;
+    while(result != 0)
+    {
+        result = solve_one(0, queens, 0);
+        if(result == 1)
+        {
+            printf("Solution found!");
+            for(int i = 0; i < 10; ++i)
+            {
+                solutions[solution_count][i] = queens[i];
+            }
+            ++solution_count;
+            printf("Solution count is now %d.", solution_count);
+        }
     }
     return solution_count;
 }
