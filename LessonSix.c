@@ -202,20 +202,111 @@ position in the first column (the index starting from 0). The Nth digit represen
 the Nth Queen’s position in the Nth column.
 • The return value must be the total number of displayed solutions.
 */
-int *remove_possibilities(int *matrix)
+int check_solutions(int x, int y, int (*solutions)[1000], int solution_count)
 {
-
+    for(int i = 0; i < solution_count; ++i)
+    {
+        if(solutions[i][x] = y)
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+int check_for_queens(int x, int y, int *queens)
+{
+    int current_size = x;
+    for(int i = 0; i < current_size; ++i)
+    {
+        //Check if this y-row is free.
+        if(queens[i] == y)
+        {
+            return 0;
+        }
+        //Check diagonals.
+        //Equation of a line: y = x + y0 - x0 or y = -x + y0 - x0.
+        if(queens[i] == i + y - x)
+        {
+            char str[] = "found queen at {x}, {y}.";
+            printf(str);
+            return 0;
+        }
+        if(queens[i] == -i + y - x)
+        {
+            char str[] = "found queen at {x}, {y}.";
+            printf(str);
+            return 0;
+        }
+    }
+    return 1;
+}
+int set_queen(int x, int y, int *queens, int (*solutions)[1000], int solution_count)
+{
+    int free = check_for_queens(x, y, queens);
+    if(free == 1)
+    {
+        queens[x] = y;
+        //If this is the last queen, add to solutions.
+        if(x == 10)
+        {
+            for(int i = 0; i < 10; ++i)
+            {
+                solutions[i][solution_count] = queens[i];
+            }
+        }
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
+}
+int solve_one(int column, int existing_value)
+{
+    int i = existing_value != 0 ? 0 : 1;
+    while(i < 10)
+    {
+        ++i;
+    }
+}
+int ft_abs(int num)
+{
+    if(num < 0)
+    {
+        return -num;
+    }
+    else
+    {
+        return num;
+    }
 }
 int ft_ten_queens_puzzle(void)
 {
+    //=============================
+    /*
+    1. place first
+    2. place second
+    --> problem --> return to last good.
+    --> if this loop does not work, return more.
+    ================================
+    1. find one solution.
+    2. change last column value, if not possible, change second to last column value. then the one before etc.
+    a. go to previous column.
+    b. see if there is another value free than what was previously used.
+        if yes, use that and try to complete. store the last checked column
+        if no, go to previous.
+
+    */
     int solution_count = 0;
-    int matrix[10][10];
+    int queens[10][10];
+    int solutions[10][1000];
     for(int i = 0; i < 10; ++i)
     {
 
     }
     return solution_count;
 }
+
 
 int main()
 {
