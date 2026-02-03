@@ -202,7 +202,7 @@ position in the first column (the index starting from 0). The Nth digit represen
 the Nth Queen’s position in the Nth column.
 • The return value must be the total number of displayed solutions.
 */
-int check_for_queens(int x, int y, int *queens)
+int ft_check_for_queens(int x, int y, int *queens)
 {
     int current_size = x;
     for(int i = 0; i < current_size; ++i)
@@ -228,7 +228,7 @@ enum SolveResult
     SOLVE_BACKTRACK_AFTER_SOLUTION,
     SOLVE_DONE
 };
-int solve(int column, int* queens, int size)
+int ft_queen_solver(int column, int* queens, int size)
 {
     //start is 0 if queens is empty (-1) at this column, else its one larger than the current value.
     int start = queens[column] + 1;
@@ -247,7 +247,7 @@ int solve(int column, int* queens, int size)
     //Check if there are any options above current queen y-value (or zero).
     for(int i = start; i < size; ++i)
     {
-        if(check_for_queens(column, i, queens) == 1)
+        if(ft_check_for_queens(column, i, queens) == 1)
         {
             //Free cell found, store value in queens.
             queens[column] = i;
@@ -256,8 +256,9 @@ int solve(int column, int* queens, int size)
             {
                 for(int j = 0; j < size; ++j)
                 {
-                    char c = queens[j] + '0';
-                    write(1, &c, 1);
+                    //char c = queens[j] + '0';
+                    //write(1, &c, 1);
+                    ft_putnbr(queens[j]);
                     //printf("%d", queens[j]);
                     if(j == size - 1)
                     {
@@ -305,7 +306,7 @@ int solve(int column, int* queens, int size)
     ft_putstr(str);
     return SOLVE_DONE;
 }
-int manage_loop(int *queens, int size, int *solution_count)
+int ft_manage_queen_loop(int *queens, int size, int *solution_count)
 {
     int column = 1;
     int result = 0;
@@ -319,7 +320,7 @@ int manage_loop(int *queens, int size, int *solution_count)
             return 0;
         }
         //Run one iteration.
-        result = solve(column, queens, size);
+        result = ft_queen_solver(column, queens, size);
         //If result is 0, backtrack.
         if(result == SOLVE_BACKTRACK)
         {
@@ -364,7 +365,7 @@ void ft_ten_queens_puzzle(void)
         queens[i] = -1;
     }
     int *ptr = &solution_count;
-    result = manage_loop(queens, 10, ptr);
+    result = ft_manage_queen_loop(queens, 10, ptr);
     char line[] = "=====================================";
     ft_putstr(line);
     char msg[] = "Final solution count is: ";
@@ -374,7 +375,8 @@ void ft_ten_queens_puzzle(void)
 }
 void ft_n_queens_puzzle(int n)
 {
-    if(n == 0)
+    int upper_limit = 13;
+    if(n == 0 || n > upper_limit)
     {
         return;
     }
@@ -388,7 +390,7 @@ void ft_n_queens_puzzle(int n)
         queens[i] = -1;
     }
     int *ptr = &solution_count;
-    result = manage_loop(queens, n, ptr);
+    result = ft_manage_queen_loop(queens, n, ptr);
     char line[] = "=====================================";
     ft_putstr(line);
     char msg[] = "Final solution count is: ";
@@ -430,6 +432,6 @@ int main()
     ft_find_next_prime(115);
     ft_find_next_prime(165);*/
     ft_ten_queens_puzzle();
-    ft_n_queens_puzzle(5);
+    ft_n_queens_puzzle(11);
     return 0;
 }

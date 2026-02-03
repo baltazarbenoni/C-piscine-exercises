@@ -213,7 +213,7 @@ void ft_putnbr(int nb)
         write(1, &sign, 1);
     }
     write(1, &rev_buff, size);
-    write(1, "\n", 1);
+    //write(1, "\n", 1);
 }
 
 
