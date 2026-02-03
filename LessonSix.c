@@ -210,13 +210,11 @@ int check_for_queens(int x, int y, int *queens)
         //Check if this y-row is free.
         if(queens[i] == y)
         {
-            //printf("Found previous queen at %d, %d", i, y);
             return 0;
         }
         //Check diagonals.
         if(ft_abs(queens[i]- y) == ft_abs(i - x))
         {
-            //printf("found previous queen at {%d}, {%d}.", x, y);
             return 0;
         }
     }
@@ -241,7 +239,6 @@ int solve(int column, int* queens, int size)
         //Do not backtrack if already at the first column.
         if(column <= 0)
         {
-            //printf("\nFirst column reached, cannot backtrack!\n");
             return SOLVE_DONE;
         }
         //Returning zero causes backtrack.
@@ -259,14 +256,17 @@ int solve(int column, int* queens, int size)
             {
                 for(int j = 0; j < size; ++j)
                 {
-                    printf("%d", queens[j]);
+                    char c = queens[j] + '0';
+                    write(1, &c, 1);
+                    //printf("%d", queens[j]);
                     if(j == size - 1)
                     {
-                        printf("\n");
+                        write(1, "\n", 1);
                     }
                     else
                     {
-                        printf(",");
+                        char cln = ',';
+                        write(1, &cln, 1);
                     }
                 }
                 //Return value 3 causes backtracking from correct solution.
@@ -293,7 +293,6 @@ int solve(int column, int* queens, int size)
         {
             if(column <= 0)
             {
-                printf("\nColumn 0, cannot backtrack, end of search.\n");
                 return SOLVE_DONE;
             }
             //printf("Backtracking to column %d\n", column - 1);
@@ -302,7 +301,8 @@ int solve(int column, int* queens, int size)
             return SOLVE_BACKTRACK;
         }
     }
-    printf("End of loop, returning 0");
+    char str[] = "End of loop, returning 0\n"; 
+    ft_putstr(str);
     return SOLVE_DONE;
 }
 int manage_loop(int *queens, int size, int *solution_count)
@@ -314,7 +314,8 @@ int manage_loop(int *queens, int size, int *solution_count)
         //Check column is assigned correctly.
         if(column < 0 || column >= size)
         {
-            printf("Incorrect column index: %d, returning...\n", column);
+            char str[] = "Incorrect column index, returning...\n";
+            ft_putstr(str);
             return 0;
         }
         //Run one iteration.
@@ -332,7 +333,10 @@ int manage_loop(int *queens, int size, int *solution_count)
         else if(result == SOLVE_BACKTRACK_AFTER_SOLUTION || result == SOLVE_CONTINUE_COLUMN)
         {
             *solution_count += 1;
-            printf("\nFound solution, count is %d\n", *solution_count);
+            char msg[] = "\nFound solution, count is: ";
+            ft_putstr(msg);
+            ft_putnbr(*solution_count);
+            write(1, "\n", 1);
             //If result is 3, backtrack from correct solution.
             if(result == SOLVE_BACKTRACK_AFTER_SOLUTION)
             {
@@ -353,29 +357,45 @@ void ft_ten_queens_puzzle(void)
     int solution_count = 0;
     int queens[10];
     int result = 0;
-    printf("Now entering loop!\n");
-    //Start the loop from index 1 since index 0 is initialized to 0.
-//    for(int start_val = 0; start_val < 10; ++start_val)
-//    {
-        queens[0] = 0;
-        //Initialize array//.
-        for(int i = 1; i < 10; ++i)
-        {
-            queens[i] = -1;
-        }
-        int *ptr = &solution_count;
-        result = manage_loop(queens, 10, ptr);
-        printf("Result is %d", result);
-        /*if(result == 0)
-        {
-            printf("Loop finished! Or something went wrong..\n");
-            break;
-        }*/
-        //printf("Start val is %d, solution count is %d\n", start_val, solution_count);
-    //}
-    printf("Solution count is %d.\n", solution_count);
+    queens[0] = 0;
+    //Initialize array//.
+    for(int i = 1; i < 10; ++i)
+    {
+        queens[i] = -1;
+    }
+    int *ptr = &solution_count;
+    result = manage_loop(queens, 10, ptr);
+    char line[] = "=====================================";
+    ft_putstr(line);
+    char msg[] = "Final solution count is: ";
+    ft_putstr(msg);
+    ft_putnbr(solution_count);
+    write(1, "\n", 1);
 }
-
+void ft_n_queens_puzzle(int n)
+{
+    if(n == 0)
+    {
+        return;
+    }
+    int solution_count = 0;
+    int queens[n];
+    int result = 0;
+    queens[0] = 0;
+    //Initialize array//.
+    for(int i = 1; i < n; ++i)
+    {
+        queens[i] = -1;
+    }
+    int *ptr = &solution_count;
+    result = manage_loop(queens, n, ptr);
+    char line[] = "=====================================";
+    ft_putstr(line);
+    char msg[] = "Final solution count is: ";
+    ft_putstr(msg);
+    ft_putnbr(solution_count);
+    write(1, "\n", 1);
+}
 
 int main()
 {
@@ -410,5 +430,6 @@ int main()
     ft_find_next_prime(115);
     ft_find_next_prime(165);*/
     ft_ten_queens_puzzle();
+    ft_n_queens_puzzle(5);
     return 0;
 }
