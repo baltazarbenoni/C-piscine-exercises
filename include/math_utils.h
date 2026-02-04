@@ -1,5 +1,5 @@
-#ifndef HEADER_FILE
-#define HEADER_FILE
+#ifndef MATH_UTILS_H 
+#define MATH_UTILS_H
 
 int ft_abs(int num);
 void ft_print_ints(int *arr, int size);

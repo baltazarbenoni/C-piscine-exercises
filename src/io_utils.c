@@ -1,6 +1,5 @@
 #include <unistd.h>
 #include <stdbool.h>
-#include "mylib.h"
 
 void ft_putchar(char c)
 {

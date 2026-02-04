@@ -1,5 +1,5 @@
-#ifndef HEADER_FILE
-#define HEADER_FILE
+#ifndef IO_UTILS_H 
+#define IO_UTILS_H
 
 void ft_putchar(char c);
 void ft_print_alphabet(void);

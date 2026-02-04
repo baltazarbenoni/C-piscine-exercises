@@ -1,6 +1,5 @@
 #include <unistd.h>
 #include <stdbool.h>
-#include "mylib.h"
 
 int ft_abs(int num)
 {
