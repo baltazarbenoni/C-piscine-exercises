@@ -310,6 +310,11 @@ int ft_strlen(char *str)
     while(str[length_counter] != '\0') 
     {
         ++length_counter;
+        //Guard against not null-terminated strings.
+        if(length_counter >= 2147483647)
+        {
+            return length_counter;
+        }
     }
     return length_counter;
 }
