@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <limits.h>
-#include "mylib.h"
+#include "io_utils.h"
 
 //Exercise 00 : ft_strcmp
 //Reproduce the behavior of the function strcmp (man strcmp).
@@ -60,7 +60,7 @@ int ft_strncmp(char *s1, char *s2, unsigned int n)
     }
     int counter1 = 0;
     int counter2 = 0;
-    for(int i = 0; i < n; ++i)
+    for(unsigned int i = 0; i < n; ++i)
     {
         if(s1[i] != '\0')
         {
@@ -128,7 +128,7 @@ char *ft_strncat(char *dest, char *src, unsigned int nb)
     {
         ++start;
     }
-    for(int i = 0; i < nb; ++i)
+    for(unsigned int i = 0; i < nb; ++i)
     {
         if(src[i] == '\0')
         {
@@ -160,7 +160,6 @@ char *ft_strstr(char *str, char *to_find)
 {
     int i = 0;
     int j = 0;
-    int match;
     char* ptr;
     while(str[i] != '\0')
     {
@@ -232,6 +231,7 @@ unsigned int ft_strlcat(char *dest, char *src, unsigned int size)
     }
     //Null terminate result.
     dest[i + j] = '\0';
+    return i + j;
 }
 int main()
 {
@@ -243,7 +243,6 @@ int main()
     char hella[] = "hello";
     char hello2[] = "hello2 hello3 hello4";
     char hello3[] = "hellooo1234";
-    char wroom[] = "wroom1";
     char wroom2[] = "car say wroom quand il va vite wroom";
     char wroom3[] = "wroo";
     char wroom4[] = "car say wroom quand il va vite wroom";
@@ -264,7 +263,6 @@ int main()
     write(1, "\n", 1);
     write(1, "\n", 1);
     char* p = ft_strstr(hey, hella);
-    char** p2 = &p;
     char msg[] = "found string at";
     ft_putstr(msg);
     //write(1, p2, 1);

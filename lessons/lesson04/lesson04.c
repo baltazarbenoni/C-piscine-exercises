@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <limits.h>
-#include "mylib.h"
+#include "str_utils.h"
+#include "io_utils.h"
 //Exercise 00 : ft_strlen
 //Create a function that counts and returns the number of characters in a string.
 /*
@@ -56,7 +57,7 @@ int ft_atoi(char *str)
         char c = str[index];
         ++index;
         //Initial whitespace.
-        if(c >= '\t' && c <= '\r' || c == ' ')
+        if((c >= '\t' && c <= '\r') || c == ' ')
         {
             //printf("whitespace: %c\n", c);
             if(num == 0)
@@ -103,6 +104,7 @@ int ft_atoi(char *str)
             return num * is_pos;
         }
     }
+    return num * is_pos;
 }
 //Exercise 04 : ft_putnbr_base
 //
@@ -139,7 +141,7 @@ int ft_check_base(char* base, int len)
         {
             return 0;
         }
-        if(base[i] >= '\t' && base[i] <= '\r' || base[i] == ' ')
+        if((base[i] >= '\t' && base[i] <= '\r') || base[i] == ' ')
         {
             return 0;
         }
@@ -237,6 +239,7 @@ int ft_atoi_base(char *str, char *base)
     int number = ft_atoi(str);
     //printf("%d", number);
     ft_putnbr_base(number, base);
+    return number;
 }
 
 int main()
@@ -257,7 +260,6 @@ int main()
     char base[] = "01";
     char base1[] = "0123456789ABCDEF";
     char base2[] = "sixteen";
-    char base3[] = "sixten";
     ft_putnbr_base(124, base);
     ft_putnbr_base(73, base);
     ft_putnbr_base(73, base1);

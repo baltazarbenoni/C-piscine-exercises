@@ -29,7 +29,7 @@ char *ft_strcpy(char *dest, char *src)
 char *ft_strncpy(char *dest, char *src, unsigned int n)
 {
     _Bool source_ended = false;
-    for(int i = 0; i < n; ++i)
+    for(unsigned int i = 0; i < n; ++i)
     {
         if(source_ended == false)
         {
@@ -50,7 +50,6 @@ char *ft_strncpy(char *dest, char *src, unsigned int n)
 int ft_str_is_alpha(char *str)
 {
     int index = 0;
-    int flag = 1;
     while(str[index] != '\0')
     {
         char c = str[index];
@@ -66,7 +65,6 @@ int ft_str_is_alpha(char *str)
 int ft_str_is_numeric(char *str)
 {
     int index = 0;
-    int flag = 1;
     while(str[index] != '\0')
     {
         char c = str[index];
@@ -82,7 +80,6 @@ int ft_str_is_numeric(char *str)
 int ft_str_is_lowercase(char *str)
 {
     int index = 0;
-    int flag = 1;
     while(str[index] != '\0')
     {
         char c = str[index];
@@ -98,7 +95,6 @@ int ft_str_is_lowercase(char *str)
 int ft_str_is_uppercase(char *str)
 {
     int index = 0;
-    int flag = 1;
     while(str[index] != '\0')
     {
         char c = str[index];
@@ -114,7 +110,6 @@ int ft_str_is_uppercase(char *str)
 int ft_str_is_printable(char *str)
 {
     int index = 0;
-    int flag = 1;
     while(str[index] != '\0')
     {
         char c = str[index];
@@ -193,11 +188,11 @@ char *ft_strcapitalize(char *str)
 }
 unsigned int ft_strlcpy(char *dest, char *src, unsigned int size)
 {
-    if(size = 0)
+    if(size == 0)
     {
         return 0;
     }
-    int i = 0;
+    unsigned int i = 0;
     while(src[i] != '\0')
     {
         if(i < size)
@@ -255,7 +250,7 @@ int ft_strncmp(char *s1, char *s2, unsigned int n)
     }
     int counter1 = 0;
     int counter2 = 0;
-    for(int i = 0; i < n; ++i)
+    for(unsigned int i = 0; i < n; ++i)
     {
         if(s1[i] != '\0')
         {
@@ -303,7 +298,7 @@ char *ft_strncat(char *dest, char *src, unsigned int nb)
     {
         ++start;
     }
-    for(int i = 0; i < nb; ++i)
+    for(unsigned int i = 0; i < nb; ++i)
     {
         if(src[i] == '\0')
         {
@@ -320,7 +315,6 @@ char *ft_strstr(char *str, char *to_find)
 {
     int i = 0;
     int j = 0;
-    int match;
     char* ptr;
     while(str[i] != '\0')
     {
@@ -385,4 +379,5 @@ unsigned int ft_strlcat(char *dest, char *src, unsigned int size)
     }
     //Null terminate result.
     dest[i + j] = '\0';
+    return i + j;
 }
