@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdbool.h>
+#include "math_utils.h"
 
 void ft_putchar(char c)
 {
@@ -233,4 +234,100 @@ void ft_put_hex_from_dec(int dec, char *hex, int size)
             break;
         }
     }
+}
+/*
+Create a function that displays a number in a base system in the terminal.
+• This number is given in the shape of an int, and the radix in the shape of a string of characters (the length of the string).
+• The base-system contains all useable symbols to display that number :
+◦ 0123456789 is the commonly used base system to represent decimal numbers
+◦ 01 is a binary base system ;
+◦ 0123456789ABCDEF an hexadecimal base system ;
+◦ poneyvif is an octal base system.
+• The function must handle negative numbers.
+• If there’s an invalid argument, nothing should be displayed. Examples of invalid
+arguments :
+◦ base is empty or size of 1;
+◦ base contains the same character twice ;
+◦ base contains + or - ;
+*/
+int ft_get_base_from_string(char* base, int len)
+{
+    //check initial conditions.
+    if(base[0] == '\0' || base[1] == '\0')
+    {
+        return 0;
+    }
+    //create array for duplicate comparison.
+    char buffer[len + 1];
+    buffer[len] = '\0';
+    int i = 0;
+    while(base[i] != '\0')
+    {
+        if(base[i] == '+' || base[i] == '-')
+        {
+            return 0;
+        }
+        if(base[i] >= '\t' && base[i] <= '\r' || base[i] == ' ')
+        {
+            return 0;
+        }
+        int j = 0;
+        while(buffer[j] != '\0')
+        {
+            if(base[i] == buffer[j])
+            {
+                return 0;
+            }
+            ++j;
+        }
+        buffer[i] = base[i];
+        ++i;
+    }
+    return 1;
+}
+void ft_putnbr_base(int nbr, char *base)
+{
+    int buffer_limit = 128;
+    char buffer[buffer_limit];
+    int base_len = ft_strlen(base);
+    if(ft_get_base_from_string(base, base_len) < 1)
+    {
+        return;
+    }
+    if(nbr < 0)
+    {
+        char a = '-';
+        write(1, &a, 1);
+        nbr *= -1;
+    }
+    //get value.
+    int counter = 0;
+    while(nbr > 0)
+    {
+        int digit = (nbr % base_len);
+        //char c = ft_get_char(digit, base_len);
+        char c = base[digit];
+        buffer[counter] = c;
+        nbr /= base_len;
+        ++counter;
+        //printf("\ndigit: %d, nbr: %d, base: %d, c: %c, counter: %d\n", digit, nbr, base_len, c, counter);
+        if(counter >= buffer_limit)
+        {
+            break;
+        }
+    }
+    //print and reverse order.
+    {
+        for(int x = counter - 1; x >= 0; --x)
+        {
+            char a = buffer[x];
+            write(1, &a, 1);
+        }
+    }
+    write(1, "\n", 1);
+}
+int ft_atoi_base(char *str, char *base)
+{
+    int number = ft_atoi(str);
+    ft_putnbr_base(number, base);
 }

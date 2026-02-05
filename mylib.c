@@ -1,6 +1,5 @@
 #include <unistd.h>
 #include <stdbool.h>
-#include "mylib.h"
 //=====================================================//
 /*
 Useful functions outside lessons.

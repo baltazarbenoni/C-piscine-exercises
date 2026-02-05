@@ -12,4 +12,6 @@ void ft_putnbr(int nb);
 void ft_print_combn(int n);
 void ft_putstr(char *str);
 void ft_put_hex_from_dec(int dec, char *hex, int size);
+void ft_putnbr_base(int nbr, char *base);
+int ft_atoi_base(char *str, char *base);
 #endif
