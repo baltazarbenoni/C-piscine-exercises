@@ -154,3 +154,10 @@ void print_sorted_array(int *ar, int size)
         }
     }
 }
+int main()
+{
+    int array_to_merge[12] = {1, 6, 34, 2, 7, 65, 43, 3, 88, 13, 42, 35};
+    ft_sort_int_tab(array_to_merge, 12);
+    print_sorted_array(array_to_merge, 12);
+    return 0;
+}

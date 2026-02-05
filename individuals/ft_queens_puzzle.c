@@ -193,3 +193,9 @@ void ft_n_queens_puzzle(int n)
     ft_putnbr(solution_count);
     write(1, "\n", 1);
 }
+int main()
+{
+    ft_ten_queens_puzzle();
+    ft_n_queens_puzzle(11);
+    return 0;
+}
