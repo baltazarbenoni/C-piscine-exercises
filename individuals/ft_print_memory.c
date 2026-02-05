@@ -23,8 +23,8 @@ void print_one_line_memory(void *addr, int block_start, int block_end, int line_
 #define MIN(a,b) ((a)<(b)?(a):(b)) 
 void *ft_print_memory(void *addr, unsigned int size)
 {
-    int block_start = 0;
-    int line_size = 16;
+    unsigned block_start = 0;
+    unsigned line_size = 16;
     while(block_start < size)
     {
         int block_end = MIN(block_start + line_size, size);
@@ -152,7 +152,7 @@ void short_dec_to_hex(int dec, char *hex)
 }
 int main()
 {
-    char mem_test[] = "Bonjour les amin";
+    //char mem_test[] = "Bonjour les amin";
     char mem_test1[] = "Bonjour les aminches...c'est fou tout ce qu on peut fare avec ..print_memory..lol..xDDD.. ahaha חדלגחדשלחכ";
     int length = strlen(mem_test1);
     ft_print_memory(mem_test1, length);

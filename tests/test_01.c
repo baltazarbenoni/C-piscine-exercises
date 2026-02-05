@@ -2,6 +2,9 @@
 #include <stdio.h>
 #include <limits.h>
 #include "io_utils.h"
+#include "math_utils.h"
+#include "str_utils.h"
+#include "array_utils.h"
 
 int main()
 {

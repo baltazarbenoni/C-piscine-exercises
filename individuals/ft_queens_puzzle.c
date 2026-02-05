@@ -1,5 +1,7 @@
 #include <unistd.h>
 #include <stdbool.h>
+#include "math_utils.h"
+#include "io_utils.h"
 
 int ft_check_for_queens(int x, int y, int *queens)
 {
@@ -152,7 +154,6 @@ void ft_ten_queens_puzzle(void)
 {
     int solution_count = 0;
     int queens[10];
-    int result = 0;
     queens[0] = 0;
     //Initialize array//.
     for(int i = 1; i < 10; ++i)
@@ -160,7 +161,7 @@ void ft_ten_queens_puzzle(void)
         queens[i] = -1;
     }
     int *ptr = &solution_count;
-    result = ft_manage_queen_loop(queens, 10, ptr);
+    ft_manage_queen_loop(queens, 10, ptr);
     char line[] = "=====================================";
     ft_putstr(line);
     char msg[] = "Final solution count is: ";
@@ -177,7 +178,6 @@ void ft_n_queens_puzzle(int n)
     }
     int solution_count = 0;
     int queens[n];
-    int result = 0;
     queens[0] = 0;
     //Initialize array//.
     for(int i = 1; i < n; ++i)
@@ -185,7 +185,7 @@ void ft_n_queens_puzzle(int n)
         queens[i] = -1;
     }
     int *ptr = &solution_count;
-    result = ft_manage_queen_loop(queens, n, ptr);
+    ft_manage_queen_loop(queens, n, ptr);
     char line[] = "=====================================";
     ft_putstr(line);
     char msg[] = "Final solution count is: ";

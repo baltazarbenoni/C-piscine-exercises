@@ -2,7 +2,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -std=c99 -Iinclude
 
 TEST_DIR  = tests
-INDIVIDUAL_DIR = individual
+INDIVIDUAL_DIR = individuals
 
 LIB_SRCS = \
 	src/str_utils.c \
@@ -17,8 +17,10 @@ LIB_SRCS = \
 
 # Individual standalone functions
 ######################################
-%: $(INDIVIDUAL_DIR)/%.c
-	$(CC) $(CFLAGS) $< -o $@
+
+%: $(INDIVIDUAL_DIR)/%.c $(LIB_SRCS)
+	$(CC) $(CFLAGS) $^ -o $@
+	./$@
 ######################################
 
 # Tests

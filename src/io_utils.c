@@ -1,6 +1,7 @@
 #include <unistd.h>
 #include <stdbool.h>
 #include "math_utils.h"
+#include "str_utils.h"
 
 void ft_putchar(char c)
 {
@@ -267,7 +268,7 @@ int ft_get_base_from_string(char* base, int len)
         {
             return 0;
         }
-        if(base[i] >= '\t' && base[i] <= '\r' || base[i] == ' ')
+        if((base[i] >= '\t' && base[i] <= '\r') || base[i] == ' ')
         {
             return 0;
         }
@@ -330,4 +331,5 @@ int ft_atoi_base(char *str, char *base)
 {
     int number = ft_atoi(str);
     ft_putnbr_base(number, base);
+    return number;
 }

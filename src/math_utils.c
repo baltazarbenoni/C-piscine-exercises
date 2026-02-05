@@ -50,16 +50,12 @@ int ft_atoi(char *str)
     int num = 0;
     int finished = 0;
     int index = 0;
-    /*
-    whitespaces: x >= 9 && x <= 13 || x == 32.
-    plus minus: x == '+' , x == '-'
-    */
     while(finished == 0)
     {
         char c = str[index];
         ++index;
         //Initial whitespace.
-        if(c >= '\t' && c <= '\r' || c == ' ')
+        if((c >= '\t' && c <= '\r') || c == ' ')
         {
             //printf("whitespace: %c\n", c);
             if(num == 0)
@@ -96,7 +92,6 @@ int ft_atoi(char *str)
         //Handle numbers.
         else if(c >= '1' && c <= '9')
         {
-            //printf("numbers %c", c);
             if(ft_abs(num) > INT_MAX / 10)
             {
                 return num;
@@ -106,14 +101,15 @@ int ft_atoi(char *str)
         }
         else if(num != 0)
         {
-            //printf("exiting");
             return num * is_pos;
         }
     }
+    return num;
 }
 //Get character for different base systems. nbr is the number in dec, base the base-system. If base is larger than alphanumeric, behavior is undefined.
 char ft_get_char_in_base(int nbr, int base)
 {
+    char c;
     if(base == 0 || base == 1)
     {
         return '0';
@@ -124,12 +120,12 @@ char ft_get_char_in_base(int nbr, int base)
     }
     if(nbr < 10)
     {
-        char c = nbr + '0';
+        c = nbr + '0';
         return c;
     }
     else
     {
-        char c = 'A' + (char)(nbr - 10);
+        c = 'A' + (char)(nbr - 10);
         return c;
     }
 }

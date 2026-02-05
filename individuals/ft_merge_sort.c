@@ -131,7 +131,7 @@ void iterate_merge(int step_size, int *buffer, int *left_buffer, int *right_buff
     }
 }
 //Merge-sort function to sort small arrays (arrays allocated on stack).
-void ft_sort_int_tab(int *buffer, int size)
+void ft_sort_int_tab1(int *buffer, int size)
 {
     int result[size];
     int left_buffer[size];
@@ -157,7 +157,7 @@ void print_sorted_array(int *ar, int size)
 int main()
 {
     int array_to_merge[12] = {1, 6, 34, 2, 7, 65, 43, 3, 88, 13, 42, 35};
-    ft_sort_int_tab(array_to_merge, 12);
+    ft_sort_int_tab1(array_to_merge, 12);
     print_sorted_array(array_to_merge, 12);
     return 0;
 }

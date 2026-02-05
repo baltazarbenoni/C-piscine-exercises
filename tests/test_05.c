@@ -3,6 +3,7 @@
 #include <stdbool.h>
 #include <limits.h>
 #include "io_utils.h"
+#include "math_utils.h"
 
 int main()
 {
@@ -15,19 +16,19 @@ int main()
     int index = 10;
     printf("Fibonacci for index %d is %d\n", index, ft_fibonacci(index));
     int result = ft_sqrt(25);
-    printf("\nResult for %d squared is: %d\n", 25, result);
+    printf("\nResult for %d square root is: %d\n", 25, result);
     result = ft_sqrt(36);
-    printf("\nResult for %d squared is: %d\n", 36, result);
+    printf("\nResult for %d square root is: %d\n", 36, result);
     result = ft_sqrt(4);
-    printf("\nResult for %d squared is: %d\n", 4, result);
+    printf("\nResult for %d square root is: %d\n", 4, result);
     result = ft_sqrt(5);
-    printf("\nResult for %d squared is: %d\n", 5, result);
+    printf("\nResult for %d square root is: %d\n", 5, result);
     result = ft_sqrt(256);
-    printf("\nResult for %d squared is: %d\n", 256, result);
+    printf("\nResult for %d square root is: %d\n", 256, result);
     result = ft_sqrt(81);
-    printf("\nResult for %d squared is: %d\n", 81, result);
+    printf("\nResult for %d square root is: %d\n", 81, result);
     result = ft_sqrt(13);
-    printf("\nResult for %d squared is: %d\n", 13, result);
+    printf("\nResult for %d square root is: %d\n", 13, result);
     ft_is_prime(19);
     ft_is_prime(47);
     ft_is_prime(111);
