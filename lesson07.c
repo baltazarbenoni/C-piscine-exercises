@@ -3,7 +3,8 @@
 #include <stdbool.h>
 #include <limits.h>
 #include <stdlib.h>
-#include "mylib.h"
+#include "str_utils.h"
+#include "io_utils.h"
 
 //Exercise 00 : ft_strdup
 /*
@@ -121,9 +122,55 @@ sep.
 • if size is 0, you must return an empty string that you can free().
 
 */
+//Get the size of a string array.
+size_t get_size(char **strs, int count)
+{
+    if(count == 0)
+    {
+        return 0;
+    }
+    int i = 0;
+    size_t full_size; 
+    while(i < count)
+    {
+        full_size += sizeof(strs[i]);
+        ++i;
+    }
+    return full_size;
+}
 char *ft_strjoin(int size, char **strs, char *sep)
 {
-    return sep;
+    char empty[] = "";
+    char *p_empty = malloc(sizeof(empty));
+    if(size < 0)
+    {
+        return NULL;
+    }
+    if(size == 0)
+    {
+        return p_empty;
+    }
+    int i = 0;
+    //Get the size. Made up of the string array size and the size of the separators (no separator in the end, size would be one less than size but for null-termination.
+    size_t full_size = get_size(strs, size) + sizeof(sep) * (size);
+    char * buffer = malloc(full_size);
+    int index = 0;
+    int *p_ind = &index;
+    if(!buffer)
+    {
+        return NULL;
+    }
+    while(i < size)
+    {
+//        ft_putstr(strs[i]);
+//        write(1, "\n", 1);
+        ft_strcpy_paste_at_n(buffer, strs[i], p_ind);
+        //ft_strncpy_paste_at_n(buffer, sep, 1, index);
+        ++i;
+    }
+    buffer[index] = *sep;
+    buffer[i] = '\0';
+    return buffer;
 }
 //Exercise 04 : ft_convert_base
 /*
@@ -137,10 +184,10 @@ base base_from to a base base_to.
 • The returned number must be prefix only by a single and uniq ’-’ if necessary, no
 whitespaces, no ’+’.
 */
-char *ft_convert_base(char *nbr, char *base_from, char *base_to)
+/*char *ft_convert_base(char *nbr, char *base_from, char *base_to)
 {
     return nbr;
-}
+}*/
 //Exercise 05 : ft_split
 /*
  Create a function that splits a string of character depending on another string of
@@ -152,11 +199,11 @@ equal to 0 to indicate the end of the array.
 • There cannot be any empty strings in your array. Get your own conclusions accordingly.
 • The string given as argument won’t be modifiable.
 */
-char **ft_split(char *str, char *charset)
+/*char **ft_split(char *str, char *charset)
 {
     char **p = &str;
     return p;
-}
+}*/
 int main()
 {
     int a = 84;
@@ -164,5 +211,14 @@ int main()
     int *p = ft_range(b, a);
     int size = a - b;
     ft_putnbrs(p, size);
+    char *strs[5];
+    strs[0] = "Hello";
+    strs[1] = "my";
+    strs[2] = "name";
+    strs[3] = "is";
+    strs[4] = "Nebukadnezzar";
+    char sep = ' ';
+    char *p_buffer = ft_strjoin(5, strs, &sep);
+    ft_putstr(p_buffer);
     return 0;
 }

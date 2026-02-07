@@ -90,7 +90,7 @@ int ft_atoi(char *str)
             return num * is_pos;
         }
         //Handle numbers.
-        else if(c >= '1' && c <= '9')
+        else if(c >= '0' && c <= '9')
         {
             if(ft_abs(num) > INT_MAX / 10)
             {

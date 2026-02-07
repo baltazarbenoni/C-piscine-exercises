@@ -3,6 +3,7 @@
 
 int ft_strlen(char *str);
 char *ft_strcpy(char *dest, char *src);
+char *ft_strcpy_paste_at_n(char *dest, char *src, int *index);
 char *ft_strncpy(char *dest, char *src, unsigned int n);
 int ft_str_is_alpha(char *str);
 int ft_str_is_numeric(char *str);

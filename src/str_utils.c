@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdbool.h>
+#include "io_utils.h"
 
 int ft_strlen(char *str)
 {
@@ -24,6 +25,21 @@ char *ft_strcpy(char *dest, char *src)
         ++i;
     }
     dest[i] = src[i];
+    return dest;
+}
+char *ft_strcpy_paste_at_n(char *dest, char *src, int *index)
+{
+    int i = 0;
+    int n = *index;
+    char c = n + '0';
+    ft_putstr("Index is: \n");
+    write(1, &c, 1);
+    while(src[i] != '\0')
+    {
+        dest[n + 1] = src[i];
+        ++i;
+    }
+    *index = n + i;
     return dest;
 }
 char *ft_strncpy(char *dest, char *src, unsigned int n)

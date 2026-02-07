@@ -18,9 +18,14 @@ LIB_SRCS = \
 # Individual standalone functions
 ######################################
 
-%: $(INDIVIDUAL_DIR)/%.c $(LIB_SRCS)
+lesson%: lesson%.c $(LIB_SRCS)
 	$(CC) $(CFLAGS) $^ -o $@
 	./$@
+
+%: $(INDIVIDUAL_DIR)/%.c $(LIB_SRCS)
+	$(CC) $(CFLAGS) $^ -o $@
+	@echo "--- Executing: ./$@ $(ARGS) ---"
+	./$@ $(ARGS)
 ######################################
 
 # Tests
@@ -38,4 +43,5 @@ tests: $(TESTS)
 ######################################
 clean:
 	rm -f test_[0-9][0-9]
+	rm -f lesson[0-9][0-9]
 	rm -f $(notdir $(basename $(wildcard $(INDIVIDUAL_DIR)/*.c)))
