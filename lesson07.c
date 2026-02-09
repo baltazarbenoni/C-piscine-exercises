@@ -218,6 +218,10 @@ int ft_char_index_in_string(char c, char *str)
     }
     return -1;
 }
+/*
+iterate from 'beginning' of nbr string.
+check the length of the whole : how long before the string ends or a forbidden character (or one not included in base) shows up.
+*/
 int ft_get_num_from_base(char *nbr, char *base, int base_len)
 {
     int num_len = strlen(nbr);
@@ -248,7 +252,7 @@ int ft_get_num_from_base(char *nbr, char *base, int base_len)
     }
     return sum;
 }
-int ft_
+//int ft_
 //Base rule: allow only alphanumeric base characters.
 /*char *ft_convert_base(char *nbr, char *base_from, char *base_to)
 {
