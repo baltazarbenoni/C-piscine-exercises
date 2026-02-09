@@ -266,3 +266,38 @@ int ft_find_next_prime(int nb)
     //printf("Found! %d is prime\n", nb);
     return nb;
 }
+int ft_check_base(char* base, int len)
+{
+    //check initial conditions.
+    if(base[0] == '\0' || base[1] == '\0')
+    {
+        return 0;
+    }
+    //create array for duplicate comparison.
+    char buffer[len + 1];
+    buffer[len] = '\0';
+    int i = 0;
+    while(base[i] != '\0')
+    {
+        if(base[i] == '+' || base[i] == '-')
+        {
+            return 0;
+        }
+        if((base[i] >= '\t' && base[i] <= '\r') || base[i] == ' ')
+        {
+            return 0;
+        }
+        int j = 0;
+        while(buffer[j] != '\0')
+        {
+            if(base[i] == buffer[j])
+            {
+                return 0;
+            }
+            ++j;
+        }
+        buffer[i] = base[i];
+        ++i;
+    }
+    return 1;
+}

@@ -7,6 +7,7 @@ void ft_div_mod(int a, int b, int *div, int *mod);
 void ft_ultimate_div_mod(int *a, int *b);
 int ft_atoi(char *str);
 char ft_get_char_in_base(int nbr, int base);
+int ft_check_base(char* base, int len);
 int ft_iterative_factorial(int nb);
 int ft_recursive_factorial(int nb);
 int ft_iterative_power(int nb, int power);

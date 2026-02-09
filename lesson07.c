@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include "str_utils.h"
 #include "io_utils.h"
+#include "math_utils.h"
 
 //Exercise 00 : ft_strdup
 /*
@@ -204,10 +205,64 @@ Create a function that returns the result of the conversion of the string nbr fr
 • The returned number must be prefix only by a single and uniq ’-’ if necessary, no
 whitespaces, no ’+’.
 */
-char *ft_convert_base(char *nbr, char *base_from, char *base_to)
+int ft_char_index_in_string(char c, char *str)
 {
-
+    int i = 0;
+    while(str[i] != '\0')
+    {
+        if(str[i] == c)
+        {
+            return i;
+        }
+        ++i;
+    }
+    return -1;
 }
+int ft_get_num_from_base(char *nbr, char *base, int base_len)
+{
+    int num_len = strlen(nbr);
+    int i = num_len;
+    int pow_index = 0;
+    int sum;
+    while(i > 0)
+    {
+        if(nbr[i - 1] == '-')
+        {
+            sum *= -1;
+            ++pow_index;
+            --i;
+            continue;
+        }
+        int num = ft_char_index_in_string(nbr[i - 1], base);
+        if(num < 0)
+        {
+            return -1;
+        }
+        sum += num * ft_iterative_power(base_len, pow_index);
+        if(sum >= INT_MAX)
+        {
+            return sum;
+        }
+        ++pow_index;
+        --i;
+    }
+    return sum;
+}
+int ft_
+//Base rule: allow only alphanumeric base characters.
+/*char *ft_convert_base(char *nbr, char *base_from, char *base_to)
+{
+    //Check bases are correct.
+    int base_from_len = ft_strlen(base_from);
+    int base_to_len = ft_strlen(base_to);
+    if(ft_check_base(base_from, base_from_len) < 1 ||ft_check_base(base_to, base_to_len) < 1)
+    {
+        return NULL;
+    }
+    //Get the size of num in decimal?.
+    int nbr_dec = ft_get_num_from_base(nbr, base_from, base_from_len);
+    //Convert to new base.
+}*/
 //Exercise 05 : ft_split
 /*
  Create a function that splits a string of character depending on another string of
