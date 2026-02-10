@@ -29,8 +29,7 @@
 //=============================================//
 //Exercise 03 : ft_atoi
 /*
-Write a function that converts the initial portion of the string pointed by str to its int
-representation
+Write a function that converts the initial portion of the string pointed by str to its int representation
 • The string can start with an arbitray amount of white space (as determined by isspace(3))
 • The string can be followed by an arbitrary amount of + and - signs, - sign will change
 the sign of the int returned based on the number of - is odd or even.
@@ -223,12 +222,10 @@ void ft_putnbr_base(int nbr, char *base)
 }
 //Exercise 05 : ft_atoi_base
 /*
-Write a function that converts the initial portion of the string pointed by str to int
-representation.
+Write a function that converts the initial portion of the string pointed by str to int representation.
 • str is in a specific base given as a second parameter.
 • excepted the base rule, the function should work exactly like ft_atoi.
-• If there’s an invalid argument, the function should return 0. Examples of invalid
-arguments :
+• If there’s an invalid argument, the function should return 0. Examples of invalid arguments :
 ◦ base is empty or size of 1;
 ◦ base contains the same character twice ;
 ◦ base contains + or - or whitespaces;

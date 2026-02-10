@@ -204,6 +204,11 @@ Create a function that returns the result of the conversion of the string nbr fr
 • If a base is wrong, NULL should be returned.
 • The returned number must be prefix only by a single and uniq ’-’ if necessary, no
 whitespaces, no ’+’.
+ATOI-RULES
+• The string can start with an arbitray amount of white space (as determined by isspace(3))
+• The string can be followed by an arbitrary amount of + and - signs, - sign will change the sign of the int returned based on the number of - is odd or even.
+• Finally the string can be followed by any numbers of the base 10.
+• Your function should read the string until the string stop following the rules and return the number found until now.
 */
 int ft_char_index_in_string(char c, char *str)
 {
@@ -222,39 +227,105 @@ int ft_char_index_in_string(char c, char *str)
 iterate from 'beginning' of nbr string.
 check the length of the whole : how long before the string ends or a forbidden character (or one not included in base) shows up.
 */
+typedef struct 
+{
+    int start;
+    int length;
+    int multiplier;
+} num_struct;
+
+num_struct ft_get_nbr(char *nbr, char *base)
+{
+    num_struct num = {.start = 0, .length = 0, .multiplier = 1};
+    int i = 0;
+    int started = 0;
+    while(nbr[i] != '\0')
+    {
+        char c = nbr[i];
+        if(ft_is_alphanumeric(c) > 0)
+        {
+            if(ft_char_index_in_string(c, base) < 0)
+            {
+                return num;
+            }
+            else if(started == 0)
+            {
+                started = 1;
+                num.start = i;
+            }
+            ++num.length;
+        }
+        else if((c >= '\t' && c <= '\r') || c == ' ' || c == '+')
+        {
+            if(started != 0)
+            {
+                return num;
+            }
+        }
+        else if(c == '-')
+        {
+            if(started != 0)
+            {
+                return num;
+            }
+            num.multiplier *= -1;
+        }
+        ++i;
+    }
+    return num;
+}
+
 int ft_get_num_from_base(char *nbr, char *base, int base_len)
 {
-    int num_len = strlen(nbr);
-    int i = num_len;
-    int pow_index = 0;
+    num_struct num = ft_get_nbr(nbr, base);
+    int i = 0;
+    int pow_index = num.length;
     int sum;
-    while(i > 0)
+    while(i <= num.length)
     {
-        if(nbr[i - 1] == '-')
-        {
-            sum *= -1;
-            ++pow_index;
-            --i;
-            continue;
-        }
-        int num = ft_char_index_in_string(nbr[i - 1], base);
-        if(num < 0)
-        {
-            return -1;
-        }
-        sum += num * ft_iterative_power(base_len, pow_index);
-        if(sum >= INT_MAX)
+        pow_index = num.length - i;
+        int index = num.start + i;
+        int dec = ft_char_index_in_string(nbr[index], base);
+        if(dec < 0)
         {
             return sum;
         }
-        ++pow_index;
-        --i;
+        sum += dec * ft_iterative_power(base_len, pow_index);
+        if(ft_abs(sum) >= INT_MAX)
+        {
+            return sum;
+        }
+        ++i;
     }
     return sum;
 }
-//int ft_
+char *ft_convert_to_base(int num, char *base, int base_len)
+{
+    int counter = 0;
+    int length = 0;
+    while(num > 0)
+    {
+        num /= base_len;
+        ++length;
+    }
+    char *buffer = malloc(length * sizeof(char));
+    while(num > 0)
+    {
+        int index = (num % base_len);
+        //Index is modulo of base length, cannot exceed array size.
+        char c = base[index];
+        buffer[counter] = c;
+        num /= base_len;
+        ++counter;
+        if(counter >= length)
+        {
+            return buffer;
+        }
+    }
+    return buffer;
+}
 //Base rule: allow only alphanumeric base characters.
-/*char *ft_convert_base(char *nbr, char *base_from, char *base_to)
+char *ft_convert_base(char *nbr, char *base_from, char *base_to)
 {
     //Check bases are correct.
     int base_from_len = ft_strlen(base_from);
@@ -266,7 +337,9 @@ int ft_get_num_from_base(char *nbr, char *base, int base_len)
     //Get the size of num in decimal?.
     int nbr_dec = ft_get_num_from_base(nbr, base_from, base_from_len);
     //Convert to new base.
-}*/
+    char *p_buffer = ft_convert_to_base(nbr_dec, base_from, base_from_len);
+    return p_buffer;
+}
 //Exercise 05 : ft_split
 /*
  Create a function that splits a string of character depending on another string of
@@ -302,5 +375,15 @@ int main()
     char sep2[] = "-XXXX-"; 
     char *p_buffer2 = ft_strjoin(5, strs, sep2);
     ft_putstr(p_buffer2);
+    char base1[] = "0123456789";
+    char base2[] = "poneyvif";
+    char base3[] = "0123456789ABCDEF";
+    char base4[] = "01";
+    char nbr1[] = "1001001";
+    char nbr2[] = "19AB";
+    char nbr3[] = "249";
+    char nbr4[] = "0";
+    char *p_buffer3 = ft_convert_base(nbr3, base1, base3);
+    ft_putstr(p_buffer3);
     return 0;
 }
