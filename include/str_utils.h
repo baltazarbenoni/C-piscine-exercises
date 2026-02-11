@@ -22,4 +22,6 @@ char *ft_strncat(char *dest, char *src, unsigned int nb);
 char *ft_strstr(char *str, char *to_find);
 unsigned int ft_strlcat(char *dest, char *src, unsigned int size);
 char *ft_reverse_string(char *str);
+void ft_free_string_array(char **str);
+void ft_freen_string_array(char **str, int size);
 #endif

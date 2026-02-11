@@ -331,3 +331,14 @@ int ft_atoi_base(char *str, char *base)
     ft_putnbr_base(number, base);
     return number;
 }
+void ft_print_string_array(char **strs)
+{
+    int i = 0;
+    while(strs[i][0] != '\0')
+    {
+        int j = 0;
+        char *elem = strs[i];
+        ft_putstr(elem);
+    }
+    write(1, "\n", 1);
+}

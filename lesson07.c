@@ -355,20 +355,130 @@ char *ft_convert_base(char *nbr, char *base_from, char *base_to)
 }
 //Exercise 05 : ft_split
 /*
- Create a function that splits a string of character depending on another string of
-characters.
+ Create a function that splits a string of character depending on another string of characters.
 • You’ll have to use each character from the string charset as a separator.
-• The function returns an array where each element of the array contains the address
-of a string wrapped between two separators. The last element of that array should
-equal to 0 to indicate the end of the array.
+• The function returns an array where each element of the array contains the address of a string wrapped between two separators. The last element of that array should equal to 0 to indicate the end of the array.
 • There cannot be any empty strings in your array. Get your own conclusions accordingly.
 • The string given as argument won’t be modifiable.
 */
-/*char **ft_split(char *str, char *charset)
+//Function to check if from current position onward characters add up to the separator.
+int ft_is_separator(char *str, char *sep, int start)
 {
-    char **p = &str;
-    return p;
-}*/
+    int i = 0;
+    while(sep[i] != '\0')
+    {
+        //Return 0 if this is not separator.
+        if(str[i + start] == '\0')
+        {
+            return 0;
+        }
+        if(str[i + start] != sep[i])
+        {
+            return 0;
+        }
+        ++i;
+    }
+    //Separator matched. Return its length.
+    return i;
+}
+char **ft_split(char *str, char *charset)
+{
+    if(str[0] == '\0' || charset[0] == '\0')
+    {
+        return NULL;
+    }
+    //======================
+    int i = 0;
+    //Make this negative so that first element will be added if sep starts at index 1.
+    int sep_end = -1;
+    int sep_count = 0;
+    int sep_length = ft_strlen(charset);
+    //======================
+    //Count up the separators.
+    //======================
+    while(str[i] != '\0')
+    {
+        //On separator's first character showing up, check if this is the separator. If it is, continue after it, if not, continue from previous pos.
+        if(str[i] == charset[0])
+        {
+            int previous_end = sep_end;
+            sep_end = ft_is_separator(str, charset, i);
+            //Don't add empty strings (to separators one after another).
+            if(i - previous_end > 2 && sep_end > 0)
+            {
+                ++sep_count;
+            }
+            i += sep_end;
+        }
+        ++i;
+    }
+    //======================
+    //Allocate string array.
+    int string_count = sep_count + 1;
+    char **array = malloc((string_count) * sizeof(char *));
+    //======================
+    //Copy strings to array.
+    int str_start = 0;
+    int strings_added = 0;
+    //Ending of the separator. -1 at beginning so that i = 1 - sep_end will be >= 2.
+    sep_end = -1;
+    int previous_end = 0;
+    while(str[i] != '\0')
+    {
+        //If match for separator's first character, check if its the separator. If it is, copy preceding string to array.
+        if(str[i] == charset[0])
+        {
+            //This is 0 if not sep, else it's sep's size.
+            int sep_size = ft_is_separator(str, charset, i);
+            //If this is separator, update indexers.
+            if(sep_size > 0)
+            {
+                //Ending of the previous separator. -1 at beginning so that i = 1 - sep_end will be >= 2.
+                previous_end = sep_end;
+                //Index to start copying string at.
+                str_start = previous_end + 1;
+                //Index where this sep ends.
+                sep_end = i + sep_size; 
+                //If this is a separator (sep_size > 0) AND is doesn't follow right after another separator (i - previous_end >= 2), allocate space and copy string into it.
+                if(i - previous_end >= 2)
+                {
+                    int k = 0;
+                    //Allocate this string.
+                    array[strings_added] = malloc((i - str_start + 1) * sizeof(char)); 
+                    //Copy string.
+                    while(k < i - str_start)
+                    {
+                        array[strings_added][k] = str[str_start + k];
+                        ++k;
+                    }
+                    array[strings_added][k] = '\0';
+                    ++strings_added;
+                }
+            }
+            i += sep_size;
+        }
+        ++i;
+    }
+    //Copy the final string if str does not end in separator.
+    if(i - sep_end >= 2)
+    {
+        str_start = sep_end + 1;
+        int k = 0;
+        //Allocate this string.
+        array[strings_added] = malloc((i - str_start + 1) * sizeof(char)); 
+        //Copy string.
+        while(k < i - str_start)
+        {
+            array[strings_added][k] = str[str_start + k];
+            ++k;
+        }
+        array[strings_added][k] = '\0';
+        ++strings_added;
+    }
+    //Add the null termination.
+    array[strings_added][0] = '\0';
+    return array;
+}
 int main()
 {
     int a = 84;
@@ -376,6 +486,7 @@ int main()
     int *p = ft_range(b, a);
     int size = a - b;
     ft_putnbrs(p, size);
+    free(p);
     char *strs[5];
     strs[0] = "Hello";
     strs[1] = "my";
@@ -388,12 +499,28 @@ int main()
     char sep2[] = "-XXXX-"; 
     char *p_buffer2 = ft_strjoin(5, strs, sep2);
     ft_putstr(p_buffer2);
+    //============================
+    char *p_strings = ft_split(p_buffer, sep);
+    char *p_strings2 = ft_split(p_buffer2, sep2);
+    ft_print_string_array(p_strings);
+    ft_print_string_array(p_strings2);
+    //============================
+    //Free memory.
+    ft_freen_string_array(strs, 5);
+    free(p_buffer);
+    free(p_buffer2);
+    ft_free_string_array(p_strings);
+    ft_free_string_array(p_strings2);
+    //===================================
     char base1[] = "0123456789";
     char base3[] = "0123456789ABCDEF";
     char nbr3[] = "249";
     char *p_buffer3 = ft_convert_base(nbr3, base1, base3);
     printf("\n");
     ft_putstr(p_buffer3);
+    //============================
+    free(p_buffer3);
+    //============================
     char base2[] = "poneyvif";
     //char base2[] = "01234567";
     char base4[] = "01";
@@ -402,22 +529,32 @@ int main()
     char *p_buffer4 = ft_convert_base(nbr1, base4, base2);
     printf("number: %s base from: %s base to: %s\n", nbr1, base4, base2);
     ft_putstr(p_buffer4);
+    //============================
+    free(p_buffer4);
+    //============================
     char *p_buffer8 = ft_convert_base(p_buffer4, base2, base4);
     printf("number: %s base from: %s base to: %s\n", p_buffer4, base2, base4);
     ft_putstr(p_buffer8);
+    //============================
+    free(p_buffer8);
+    //============================
     char *p_buffer5 = ft_convert_base(nbr2, base3, base2);
     printf("number: %s base from: %s base to: %s\n", nbr2, base3, base2);
     ft_putstr(p_buffer5);
-    /*char *p_buffer9 = ft_convert_base(p_buffer5, base2, base1);
-    ft_putstr(p_buffer9);*/
     char *p_buffer10 = ft_convert_base(p_buffer5, base2, base3);
     printf("number: %s base from: %s base to: %s\n", p_buffer5, base2, base3);
+    //============================
     ft_putstr(p_buffer10);
+    free(p_buffer5);
+    free(p_buffer10);
+    //============================
     char *p_buffer6 = ft_convert_base(nbr2, base3, base1);
     printf("number: %s base from: %s base to: %s\n", nbr2, base3, base1);
     ft_putstr(p_buffer6);
-    /*char nbr4[] = "0";
-    char *p_buffer7 = ft_convert_base(nbr4, base3, base1);
-    ft_putstr(p_buffer7);*/
+    //============================
+    free(p_buffer6);
+    //============================
+
+    //============================
     return 0;
 }

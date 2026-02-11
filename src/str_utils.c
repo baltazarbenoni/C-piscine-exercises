@@ -413,3 +413,23 @@ char *ft_reverse_string(char *str)
     }
     return str;
 }
+void ft_free_string_array(char **str)
+{
+    int i = 0;
+    while(str[i][0] != '\0')
+    {
+        free(str[i]);
+        ++i;
+    }
+    free(str);
+}
+void ft_freen_string_array(char **str, int size)
+{
+    int i = 0;
+    while(i < size)
+    {
+        free(str[i]);
+        ++i;
+    }
+    free(str);
+}
