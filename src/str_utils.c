@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "io_utils.h"
 
 int ft_strlen(char *str)
@@ -416,7 +417,7 @@ char *ft_reverse_string(char *str)
 void ft_free_string_array(char **str)
 {
     int i = 0;
-    while(str[i][0] != '\0')
+    while(str[i])
     {
         free(str[i]);
         ++i;

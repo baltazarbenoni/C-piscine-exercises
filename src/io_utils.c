@@ -334,11 +334,11 @@ int ft_atoi_base(char *str, char *base)
 void ft_print_string_array(char **strs)
 {
     int i = 0;
-    while(strs[i][0] != '\0')
+    while(strs[i])
     {
-        int j = 0;
         char *elem = strs[i];
         ft_putstr(elem);
+        ++i;
     }
     write(1, "\n", 1);
 }
