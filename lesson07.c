@@ -280,10 +280,10 @@ int ft_get_num_from_base(char *nbr, char *base, int base_len)
     num_struct num = ft_get_nbr(nbr, base);
     int i = 0;
     int pow_index = num.length;
-    int sum;
-    while(i <= num.length)
+    int sum = 0;
+    while(i < num.length)
     {
-        pow_index = num.length - i;
+        pow_index = num.length - i - 1;
         int index = num.start + i;
         int dec = ft_char_index_in_string(nbr[index], base);
         if(dec < 0)
@@ -303,25 +303,36 @@ char *ft_convert_to_base(int num, char *base, int base_len)
 {
     int counter = 0;
     int length = 0;
-    while(num > 0)
+    int num_test = num;
+    while(num_test > 0)
     {
-        num /= base_len;
+        num_test /= base_len;
         ++length;
     }
-    char *buffer = malloc(length * sizeof(char));
+    //printf("Length is %d, ", length);
+    char *buffer = malloc((length + 1) * sizeof(char));
+    if(!buffer)
+    {
+        printf("Allocation failed");
+        return NULL;
+    }
+    //printf("num is %d, ", num);
     while(num > 0)
     {
+        if(counter >= length)
+        {
+            return buffer;
+        }
         int index = (num % base_len);
         //Index is modulo of base length, cannot exceed array size.
         char c = base[index];
         buffer[counter] = c;
         num /= base_len;
         ++counter;
-        if(counter >= length)
-        {
-            return buffer;
-        }
     }
+    //Get the null.
+    buffer[counter] = '\0';
+    ft_reverse_string(buffer);
     return buffer;
 }
 //Base rule: allow only alphanumeric base characters.
@@ -330,14 +341,16 @@ char *ft_convert_base(char *nbr, char *base_from, char *base_to)
     //Check bases are correct.
     int base_from_len = ft_strlen(base_from);
     int base_to_len = ft_strlen(base_to);
+
     if(ft_check_base(base_from, base_from_len) < 1 ||ft_check_base(base_to, base_to_len) < 1)
     {
+        printf("Base not cool!");
         return NULL;
     }
-    //Get the size of num in decimal?.
+    //Get the size of num in decimal.
     int nbr_dec = ft_get_num_from_base(nbr, base_from, base_from_len);
     //Convert to new base.
-    char *p_buffer = ft_convert_to_base(nbr_dec, base_from, base_from_len);
+    char *p_buffer = ft_convert_to_base(nbr_dec, base_to, base_to_len);
     return p_buffer;
 }
 //Exercise 05 : ft_split
@@ -376,14 +389,35 @@ int main()
     char *p_buffer2 = ft_strjoin(5, strs, sep2);
     ft_putstr(p_buffer2);
     char base1[] = "0123456789";
-    char base2[] = "poneyvif";
     char base3[] = "0123456789ABCDEF";
+    char nbr3[] = "249";
+    char *p_buffer3 = ft_convert_base(nbr3, base1, base3);
+    printf("\n");
+    ft_putstr(p_buffer3);
+    char base2[] = "poneyvif";
+    //char base2[] = "01234567";
     char base4[] = "01";
     char nbr1[] = "1001001";
     char nbr2[] = "19AB";
-    char nbr3[] = "249";
-    char nbr4[] = "0";
-    char *p_buffer3 = ft_convert_base(nbr3, base1, base3);
-    ft_putstr(p_buffer3);
+    char *p_buffer4 = ft_convert_base(nbr1, base4, base2);
+    printf("number: %s base from: %s base to: %s\n", nbr1, base4, base2);
+    ft_putstr(p_buffer4);
+    char *p_buffer8 = ft_convert_base(p_buffer4, base2, base4);
+    printf("number: %s base from: %s base to: %s\n", p_buffer4, base2, base4);
+    ft_putstr(p_buffer8);
+    char *p_buffer5 = ft_convert_base(nbr2, base3, base2);
+    printf("number: %s base from: %s base to: %s\n", nbr2, base3, base2);
+    ft_putstr(p_buffer5);
+    /*char *p_buffer9 = ft_convert_base(p_buffer5, base2, base1);
+    ft_putstr(p_buffer9);*/
+    char *p_buffer10 = ft_convert_base(p_buffer5, base2, base3);
+    printf("number: %s base from: %s base to: %s\n", p_buffer5, base2, base3);
+    ft_putstr(p_buffer10);
+    char *p_buffer6 = ft_convert_base(nbr2, base3, base1);
+    printf("number: %s base from: %s base to: %s\n", nbr2, base3, base1);
+    ft_putstr(p_buffer6);
+    /*char nbr4[] = "0";
+    char *p_buffer7 = ft_convert_base(nbr4, base3, base1);
+    ft_putstr(p_buffer7);*/
     return 0;
 }

@@ -397,3 +397,19 @@ unsigned int ft_strlcat(char *dest, char *src, unsigned int size)
     dest[i + j] = '\0';
     return i + j;
 }
+//Function to reverse string. If string is not null-terminated, behaviour is undefined.
+char *ft_reverse_string(char *str)
+{
+    int length = ft_strlen(str);
+    int i = 0;
+    int j = length - 1;
+    while(i < j)
+    {
+        char temp = str[i];
+        str[i] = str[j];
+        str[j] = temp;
+        ++i;
+        --j;
+    }
+    return str;
+}

@@ -318,12 +318,10 @@ void ft_putnbr_base(int nbr, char *base)
         }
     }
     //print and reverse order.
+    for(int x = counter - 1; x >= 0; --x)
     {
-        for(int x = counter - 1; x >= 0; --x)
-        {
-            char a = buffer[x];
-            write(1, &a, 1);
-        }
+        char a = buffer[x];
+        write(1, &a, 1);
     }
     write(1, "\n", 1);
 }
