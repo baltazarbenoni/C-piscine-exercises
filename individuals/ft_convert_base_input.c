@@ -23,7 +23,7 @@ ATOI-RULES
 • Finally the string can be followed by any numbers of the base 10.
 • Your function should read the string until the string stop following the rules and return the number found until now.
 */
-int ft_char_index_in_string(char c, char *str)
+int ft_char_index_in_string(char c, const char *str)
 {
     int i = 0;
     while(str[i] != '\0')
@@ -51,32 +51,21 @@ num_struct ft_get_nbr(char *nbr, char *base)
     while(nbr[i] != '\0')
     {
         char c = nbr[i];
-        if(ft_is_alphanumeric(c) > 0)
+        if(ft_char_index_in_string(c, base) >= 0)
         {
-            if(ft_char_index_in_string(c, base) < 0)
-            {
-                return num;
-            }
-            else if(started == 0)
+            if(started == 0)
             {
                 started = 1;
                 num.start = i;
             }
             ++num.length;
         }
-        else if((c >= '\t' && c <= '\r') || c == ' ' || c == '+')
+        else if(started != 0)
         {
-            if(started != 0)
-            {
-                return num;
-            }
+            return num;
         }
         else if(c == '-')
         {
-            if(started != 0)
-            {
-                return num;
-            }
             num.multiplier *= -1;
         }
         ++i;
@@ -89,7 +78,7 @@ int ft_get_num_from_base(char *nbr, char *base, int base_len)
     num_struct num = ft_get_nbr(nbr, base);
     int i = 0;
     int pow_index = num.length;
-    int sum = 0;
+    long sum = 0;
     while(i < num.length)
     {
         pow_index = num.length - i - 1;
@@ -97,39 +86,49 @@ int ft_get_num_from_base(char *nbr, char *base, int base_len)
         int dec = ft_char_index_in_string(nbr[index], base);
         if(dec < 0)
         {
-            return sum;
+            return sum * num.multiplier;
         }
         sum += dec * ft_iterative_power(base_len, pow_index);
-        if(ft_abs(sum) >= INT_MAX)
-        {
-            return sum;
-        }
         ++i;
     }
-    return sum;
+    int j = sum * num.multiplier;
+    return j;
 }
 char *ft_convert_to_base(int num, char *base, int base_len)
 {
     int counter = 0;
     int length = 0;
-    int num_test = num;
+    long num_test = num;
+    int sign = 0;
+    if(num == 0)
+    {
+        char *buffer = malloc(2);
+        if (!buffer)
+        {
+            return NULL;
+        }
+        buffer[0] = base[0];
+        buffer[1] = '\0';
+        return buffer;
+    }
+    if(num_test < 0)
+    {
+        num_test *= -1;
+        num = num_test;
+        sign = 1;
+    }
     while(num_test > 0)
     {
         num_test /= base_len;
         ++length;
     }
-    char *buffer = malloc((length + 1) * sizeof(char));
+    char *buffer = malloc((length + 1 + sign) * sizeof(char));
     if(!buffer)
     {
-        printf("Allocation failed");
         return NULL;
     }
     while(num > 0)
     {
-        if(counter >= length)
-        {
-            return buffer;
-        }
         int index = (num % base_len);
         //Index is modulo of base length, cannot exceed array size.
         char c = base[index];
@@ -137,9 +136,14 @@ char *ft_convert_to_base(int num, char *base, int base_len)
         num /= base_len;
         ++counter;
     }
+    if(sign)
+    {
+        buffer[counter] = '-';
+        ++counter;
+    }
+    ft_reverse_string(buffer);
     //Get the null.
     buffer[counter] = '\0';
-    ft_reverse_string(buffer);
     return buffer;
 }
 //Base rule: allow only alphanumeric base characters.
@@ -151,17 +155,12 @@ char *ft_convert_base(char *nbr, char *base_from, char *base_to)
 
     if(ft_check_base(base_from, base_from_len) < 1 ||ft_check_base(base_to, base_to_len) < 1)
     {
-        printf("Base not cool!");
         return NULL;
     }
     //Get the size of num in decimal.
     int nbr_dec = ft_get_num_from_base(nbr, base_from, base_from_len);
     //Convert to new base.
     char *p_buffer = ft_convert_to_base(nbr_dec, base_to, base_to_len);
-    if(!p_buffer)
-    {
-        return NULL;
-    }
     printf("Number %s from base %s to base %s is: %s\n", nbr, base_from, base_to, p_buffer);
     return p_buffer;
 }

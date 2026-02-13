@@ -166,12 +166,13 @@ int ft_iterative_power(int nb, int power)
     {
         return 1;
     }
-    int result = 1;
+    long result = 1;
     for(int i = 0; i < power; ++i)
     {
         result *= nb;
     }
-    return result;
+    int int_result = result;
+    return int_result;
 }
 int ft_recursive_power(int nb, int power)
 {
@@ -273,9 +274,6 @@ int ft_check_base(char* base, int len)
     {
         return 0;
     }
-    //create array for duplicate comparison.
-    char buffer[len + 1];
-    buffer[len] = '\0';
     int i = 0;
     while(base[i] != '\0')
     {
@@ -288,15 +286,13 @@ int ft_check_base(char* base, int len)
             return 0;
         }
         int j = 0;
-        while(buffer[j] != '\0')
+        for(int j = 0; j < i; ++j)
         {
-            if(base[i] == buffer[j])
+            if(base[j] == base[i])
             {
                 return 0;
             }
-            ++j;
         }
-        buffer[i] = base[i];
         ++i;
     }
     return 1;
