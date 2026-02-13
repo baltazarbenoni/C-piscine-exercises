@@ -434,3 +434,247 @@ void ft_freen_string_array(char **str, int size)
     }
     free(str);
 }
+char *ft_strdup(char *src)
+{
+    int len = ft_strlen(src);
+    char *p_src = (char *)malloc(len);
+    if (p_src == NULL)
+    {
+        return NULL;
+    }
+    ft_strcpy(p_src, src);
+    return p_src;
+}
+size_t ft_get_string_size(char *str)
+{
+    size_t size = sizeof(char) * ft_strlen(str);
+    return size;
+}
+size_t ft_get_size(char **strs, int count)
+{
+    if(count == 0)
+    {
+        return 0;
+    }
+    int i = 0;
+    size_t full_size; 
+    while(i < count)
+    {
+        char *str = strs[i];
+        full_size += ft_get_string_size(str);
+        ++i;
+    }
+    return full_size;
+}
+char *ft_strjoin(int size, char **strs, char *sep)
+{
+    char empty[] = "";
+    char *p_empty = malloc(sizeof(empty));
+    if(size < 0)
+    {
+        return NULL;
+    }
+    if(size == 0)
+    {
+        return p_empty;
+    }
+    //Get the size. Made up of the string array size and the size of the separators (no separator in the end, size would be one less than size but for null-termination.
+    size_t full_size = ft_get_size(strs, size) + ft_get_string_size(sep) * size;
+    //Allocate buffer.
+    char *buffer = malloc(full_size);
+    //Different indexes: 1) strings to join, 2) index inside each string, 3) index inside the separator.
+    int string_index = 0;
+    int internal_index = 0;
+    int sep_index = 0;
+    //Start index to start joining string at.
+    int buffer_start = 0;
+    if(!buffer)
+    {
+        return NULL;
+    }
+    while(string_index < size)
+    {
+        //Copy string to buffer
+        char *str = strs[string_index];
+        while(str[internal_index] != '\0')
+        {
+            buffer[buffer_start + internal_index] = str[internal_index];
+            ++internal_index;
+        }
+        buffer_start += internal_index;
+        internal_index = 0;
+        //Copy the separator.
+        while(sep[sep_index] != '\0')
+        {
+            buffer[buffer_start + sep_index] = sep[sep_index];
+            ++sep_index;
+        }
+        buffer_start += sep_index; 
+        sep_index = 0;
+        ++string_index;
+    }
+    //Null-terminate.
+    buffer[buffer_start] = '\0';
+    return buffer;
+}
+int ft_char_index_in_string(char c, const char *str)
+{
+    int i = 0;
+    while(str[i] != '\0')
+    {
+        if(str[i] == c)
+        {
+            return i;
+        }
+        ++i;
+    }
+    return -1;
+}
+int ft_is_separator(const char *str, const char *sep, int start)
+{
+    int i = 0;
+    while(sep[i] != '\0')
+    {
+        //Return 0 if this is not separator.
+        if(str[i + start] != sep[i])
+        {
+            return 0;
+        }
+        ++i;
+    }
+    //Separator matched. Return its length.
+    return i;
+}
+char **ft_split(char *str, char *charset)
+{
+    if(!str || str[0] == '\0')
+    {
+        return NULL;
+    }
+    if(!charset)
+    {
+        return NULL;
+    }
+    if(charset[0] == '\0')
+    {
+        char **array = malloc(2 * sizeof(char*));
+        if(!array)
+        {
+            return NULL;
+        }
+        array[0] = malloc((ft_strlen(str) + 1)); 
+        if(!array[0])
+        {
+            free(array);
+            return NULL;
+        }
+        ft_strcpy(array[0], str);
+        array[1] = NULL;
+        return array;
+    }
+    //======================
+    int i = 0;
+    int string_count = 0;
+    int token_start = 0;
+    //======================
+    //Count up the separators.
+    //======================
+    while(str[i] != '\0')
+    {
+        //On separator's first character showing up, check if this is the separator.
+        if(str[i] == charset[0])
+        {
+            int sep_len = ft_is_separator(str, charset, i);
+            if(sep_len)
+            {
+                //If separators not following each other, increment string count.
+                if(i > token_start)
+                {
+                    ++string_count;
+                }
+                i += sep_len;
+                token_start = i;
+            }
+            else
+            {
+                ++i;
+            }
+        }
+        else
+        {
+            ++i;
+        }
+    }
+    //Get the last element if string does not end in separator.
+    if(i > token_start)
+    {
+        ++string_count;
+    }
+    //======================
+    //Allocate string array.
+    char **array = malloc((string_count + 1) * sizeof(char *));
+    if(!array)
+    {
+        return NULL;
+    }
+    //======================
+    //Copy strings to array.
+    //======================
+    int strings_added = 0;
+    token_start = 0;
+    i = 0;
+    while(str[i] != '\0')
+    {
+        //If match for separator's first character, check if its the separator. If it is, copy preceding string to array.
+        if(str[i] == charset[0])
+        {
+            int sep_len = ft_is_separator(str, charset, i);
+            //If this is the separator, copy the preceding token.
+            if(sep_len)
+            {
+                if(i > token_start)
+                {
+                    array[strings_added] = malloc((i - token_start + 1) * sizeof(char)); 
+                    if(!array[strings_added])
+                    {
+                        ft_free_string_array(array);
+                        return NULL;
+                    }
+                    int k = 0;
+                    while(k < i - token_start)
+                    {
+                        array[strings_added][k] = str[token_start + k];
+                        ++k;
+                    }
+                    array[strings_added][k] = '\0';
+                    ++strings_added;
+                }
+                i += sep_len;
+                token_start = i;
+            }
+            else
+            {
+                ++i;
+            }
+        }
+        else
+        {
+            ++i;
+        }
+    }
+    //Copy the final string if str does not end in separator.
+    if(i > token_start)
+    {
+        array[strings_added] = malloc((i - token_start + 1) * sizeof(char)); 
+        int k = 0;
+        while(k < i - token_start)
+        {
+            array[strings_added][k] = str[token_start + k];
+            ++k;
+        }
+        array[strings_added][k] = '\0';
+        ++strings_added;
+    }
+    array[strings_added] = NULL;
+    return array;
+}

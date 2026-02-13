@@ -24,4 +24,9 @@ unsigned int ft_strlcat(char *dest, char *src, unsigned int size);
 char *ft_reverse_string(char *str);
 void ft_free_string_array(char **str);
 void ft_freen_string_array(char **str, int size);
+char *ft_strdup(char *src);
+size_t ft_get_string_size(char *str);
+char *ft_strjoin(int size, char **strs, char *sep);
+int ft_char_index_in_string(char c, const char *str);
+char **ft_split(char *str, char *charset);
 #endif

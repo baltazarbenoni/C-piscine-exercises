@@ -342,3 +342,22 @@ void ft_print_string_array(char **strs)
     }
     write(1, "\n", 1);
 }
+void ft_putnbrs(int *nbrs, int size)
+{
+    if(size <= 0)
+    {
+        return;
+    }
+    for(int i = 0; i < size; ++i)
+    {
+        ft_putnbr(nbrs[i]);
+        if(i == size - 1)
+        {
+            write(1, "\n", 1);
+        }
+        else
+        {
+            write(1, ", ", 1);
+        }
+    }
+}

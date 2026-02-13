@@ -1,5 +1,6 @@
 #include <unistd.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include <limits.h>
 #include "io_utils.h"
 
@@ -267,7 +268,7 @@ int ft_find_next_prime(int nb)
     //printf("Found! %d is prime\n", nb);
     return nb;
 }
-int ft_check_base(char* base, int len)
+int ft_check_base(char* base)
 {
     //check initial conditions.
     if(base[0] == '\0' || base[1] == '\0')
@@ -285,7 +286,6 @@ int ft_check_base(char* base, int len)
         {
             return 0;
         }
-        int j = 0;
         for(int j = 0; j < i; ++j)
         {
             if(base[j] == base[i])
@@ -296,4 +296,52 @@ int ft_check_base(char* base, int len)
         ++i;
     }
     return 1;
+}
+int *ft_range(int min, int max)
+{
+    if(max <= min)
+    {
+        return NULL;
+    }
+    long int len = max - min;
+    if(len > INT_MAX)
+    {
+        return NULL;
+    }
+    int *p_arr = malloc(len * sizeof(int));
+    if (p_arr == NULL)
+    {
+        return NULL;
+    }
+    for(int i = 0; i < len; ++i)
+    {
+        p_arr[i] = min + i;
+    }
+    return p_arr;
+}
+int ft_ultimate_range(int **range, int min, int max)
+{
+    if(max <= min)
+    {
+        *range = NULL;
+        return 0;
+    }
+    long int len = max - min;
+    if(len > INT_MAX)
+    {
+        *range = NULL;
+        return -1;
+    }
+    int *p_arr = malloc(len * sizeof(int));
+    if (p_arr == NULL)
+    {
+        *range = NULL;
+        return -1;
+    }
+    for(int i = 0; i < len; ++i)
+    {
+        p_arr[i] = min + i;
+    }
+    *range = p_arr;
+    return len;
 }

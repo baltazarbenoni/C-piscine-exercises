@@ -23,19 +23,6 @@ ATOI-RULES
 • Finally the string can be followed by any numbers of the base 10.
 • Your function should read the string until the string stop following the rules and return the number found until now.
 */
-int ft_char_index_in_string(char c, const char *str)
-{
-    int i = 0;
-    while(str[i] != '\0')
-    {
-        if(str[i] == c)
-        {
-            return i;
-        }
-        ++i;
-    }
-    return -1;
-}
 typedef struct 
 {
     int start;
@@ -141,9 +128,9 @@ char *ft_convert_to_base(int num, char *base, int base_len)
         buffer[counter] = '-';
         ++counter;
     }
-    ft_reverse_string(buffer);
     //Get the null.
     buffer[counter] = '\0';
+    ft_reverse_string(buffer);
     return buffer;
 }
 //Base rule: allow only alphanumeric base characters.
@@ -153,7 +140,7 @@ char *ft_convert_base(char *nbr, char *base_from, char *base_to)
     int base_from_len = ft_strlen(base_from);
     int base_to_len = ft_strlen(base_to);
 
-    if(ft_check_base(base_from, base_from_len) < 1 ||ft_check_base(base_to, base_to_len) < 1)
+    if(ft_check_base(base_from) < 1 ||ft_check_base(base_to) < 1)
     {
         return NULL;
     }

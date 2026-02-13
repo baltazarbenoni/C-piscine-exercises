@@ -15,4 +15,5 @@ void ft_put_hex_from_dec(int dec, char *hex, int size);
 void ft_putnbr_base(int nbr, char *base);
 int ft_atoi_base(char *str, char *base);
 void ft_print_string_array(char **strs);
+void ft_putnbrs(int *nbrs, int size);
 #endif
