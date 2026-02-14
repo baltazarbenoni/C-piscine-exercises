@@ -32,7 +32,7 @@ lesson%: lesson%.c $(LIB_SRCS)
 ######################################
 test_%: $(TEST_DIR)/test_%.c $(LIB_SRCS)
 	$(CC) $(CFLAGS) $^ -o $@
-	./$@
+	./$@ $(ARGS)
 
 # Build all tests (but do not run them)
 TESTS := $(patsubst $(TEST_DIR)/%.c,%,$(wildcard $(TEST_DIR)/test_*.c))
