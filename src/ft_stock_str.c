@@ -3,6 +3,7 @@
 #include "str_utils.h"
 #include "io_utils.h"
 #include <unistd.h>
+
 //Exercise 04 : ft_strs_to_tab
 /*
 Create a function that takes an array of string as argument and the size of this array.
@@ -97,16 +98,4 @@ void ft_show_tab(struct s_stock_str *par)
         }
         ++i;
     }
-}
-int main()
-{
-    char *arr[5];
-    arr[0] = "Hello";
-    arr[1] = "World";
-    arr[2] = " I ";
-    arr[3] = " am ";
-    arr[4] = " aliveee$$$€€€@@}]@++aliveee ";
-    arr[5] = "jou";
-    t_stock_str *array = ft_strs_to_tab(6, arr);
-    ft_show_tab(array);
 }

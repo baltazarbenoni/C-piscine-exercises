@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "io_utils.h"
+#include "ft_stock_str.h"
 
 int ft_strlen(char *str)
 {
