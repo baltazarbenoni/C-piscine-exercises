@@ -1,9 +1,10 @@
 #include <unistd.h>
 #include <fcntl.h>
-#include "ft_display_file.h"
 #include <stdio.h>
 #include <errno.h>
 #include <string.h>
+#include "ft_cat.h"
+#include "str_utils.h"
 
 void ft_putnstr(char *str, int length)
 {
@@ -19,8 +20,10 @@ int ft_display_file(char *arg)
     int fd = open(arg, O_RDONLY);
     if(fd == -1)
     {
+        char *error = "Error with file descriptor: ";
+        write(1, error, ft_strlen(error));
         char *msg = strerror(errno);
-        write(1, msg, sizeof(msg));
+        write(1, msg, ft_strlen(msg));
         return 0;
     }
     ssize_t count;

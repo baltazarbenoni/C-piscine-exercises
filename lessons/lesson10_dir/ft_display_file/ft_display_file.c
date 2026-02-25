@@ -12,7 +12,6 @@ void ft_putnstr(char *str, int length)
         return;
     }
     write(1, str, length);
-    write(1, "\n", 1);
 }
 int main(int argc, char **argv)
 {

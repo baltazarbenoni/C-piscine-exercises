@@ -1,4 +1,9 @@
 #include "ft_cat.h"
+#include <stdio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <string.h>
 /*
 Exercise 01
 Allowed functions : close, open, read, write, strerror, basename
@@ -24,7 +29,7 @@ void ft_display_input()
         write(1, &c, 1);
     }
 }
-int ft_strcmp(char *s1, char *s2)
+int ft_str_is_same(char *s1, char *s2)
 {
     int i = 0;
     while(s1[i] != '\0')
@@ -37,21 +42,27 @@ int ft_strcmp(char *s1, char *s2)
     }
     return 0;
 }
-int main(int argc, chat **argv)
+int main(int argc, char **argv)
 {
+    printf("Arg amount is %d\n", argc);
     if(argc < 2)
     {
+        printf("Too little arguments, printing input stream\n");
         ft_display_input();
         return 0;
     }
-    int i = 0;
+    int i = 1;
     while(i < argc)
     {
-        if(ft_strcmp(argv[i], "-"))
+        printf("Arg %d is %s\n", i, argv[i]);
+        if(ft_str_is_same("-", argv[i]) == 0)
         {
             ft_display_input();
         }
-        ft_display_file(argv[i]);
+        else
+        {
+            ft_display_file(argv[i]);
+        }
         ++i;
     }
     return 0;
