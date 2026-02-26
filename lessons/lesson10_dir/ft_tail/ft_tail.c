@@ -22,5 +22,11 @@ DESCRIPTION         top
               output the last NUM bytes; or use -c +NUM to output
               starting with byte NUM of each file
 
-
+Allowed functions : close, open, read, write, malloc, free, strerror,
+basename
 */
+
+int main()
+{
+       return 0;
+}
