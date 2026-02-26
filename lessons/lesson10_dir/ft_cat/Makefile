@@ -6,7 +6,7 @@ LIB =	../../../src/str_utils.c \
 		../../../src/io_utils.c	\
 		../../../src/math_utils.c
 
-SRCS = ft_cat.c ft_display_file.c $(LIB)
+SRCS = ft_cat.c ft_cat_display_file.c $(LIB)
 
 OBJ = $(SRCS:.c=.o)
 

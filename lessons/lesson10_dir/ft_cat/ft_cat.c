@@ -61,7 +61,7 @@ int main(int argc, char **argv)
         }
         else
         {
-            ft_display_file(argv[i]);
+            ft_cat_display_file(argv[i]);
         }
         ++i;
     }

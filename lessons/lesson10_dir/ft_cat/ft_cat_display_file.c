@@ -14,7 +14,7 @@ void ft_putnstr(char *str, int length)
     }
     write(1, str, length);
 }
-int ft_display_file(char *arg)
+int ft_cat_display_file(char *arg)
 {
     char buf[MAX_LEN];
     int fd = open(arg, O_RDONLY);
