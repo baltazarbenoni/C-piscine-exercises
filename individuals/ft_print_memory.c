@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <limits.h>
 #include "io_utils.h"
+#include "str_utils.h"
 
 //Exercise 12:
 /*Create a function that displays the memory area onscreen.
@@ -154,7 +155,7 @@ int main()
 {
     //char mem_test[] = "Bonjour les amin";
     char mem_test1[] = "Bonjour les aminches...c'est fou tout ce qu on peut fare avec ..print_memory..lol..xDDD.. ahaha חדלגחדשלחכ";
-    int length = strlen(mem_test1);
+    int length = ft_strlen(mem_test1);
     ft_print_memory(mem_test1, length);
     return 0;
 }
